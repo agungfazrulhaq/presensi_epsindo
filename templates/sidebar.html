@@ -96,7 +96,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Select Month:</h6>
             {% endif %}
-                    {% for month in result['months'] %}
+                    {% set twelvemonth = ['January','February','March','April','May'] %}
+                    {% for month in twelvemonth %}
                         {% if month == result['month'] %}
                             <a class="collapse-item active" href="monthly">{{ month }}</a>
                         {% else %}
