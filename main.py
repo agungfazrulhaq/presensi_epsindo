@@ -8,9 +8,9 @@ def index():
     page_info = {'page':'index', 'months':twelvemonth}
     return render_template('index.html', result = page_info)
 
-@app.route('/monthly')
-def monthly():
-    page_info = {'page':'monthly', 'month':'January', 'months':twelvemonth}
+@app.route('/monthly/<month>')
+def monthly(month='January'):
+    page_info = {'page':'monthly', 'month':month}
     return render_template('monthly.html', result = page_info)
 
 @app.route('/importdata')

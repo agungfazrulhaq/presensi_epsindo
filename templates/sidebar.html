@@ -96,14 +96,20 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Select Month:</h6>
             {% endif %}
-                    {% set twelvemonth = ['January','February','March','April','May'] %}
+                    {% set twelvemonth = ['January','February','March','April','May','June','July','August','September','October','November','December'] %}
+                    {% if result['page'] == 'monthly' %}
                     {% for month in twelvemonth %}
                         {% if month == result['month'] %}
-                            <a class="collapse-item active" href="monthly">{{ month }}</a>
+                            <a class="collapse-item active" href="{{ month }}">{{ month }}</a>
                         {% else %}
-                            <a class="collapse-item" href="monthly">{{ month }}</a>
+                            <a class="collapse-item" href="{{ month }}">{{ month }}</a>
                         {% endif %}
                     {% endfor %}
+                    {% else %}
+                    {% for month in twelvemonth %}
+                            <a class="collapse-item" href="monthly/{{ month }}">{{ month }}</a>
+                    {% endfor %}
+                    {% endif %}
                     </div>
                 </div>
             </li>
