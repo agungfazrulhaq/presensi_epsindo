@@ -106,7 +106,7 @@ def load_monthly_table_data(df_participant, df_presensi, month=1, year=2022) :
         for day in days:
             if day.weekday() == 5 or day.weekday() == 6 :
                 dict_absen[day].append('L')
-                
+
             elif len(df_presensi['Date'].values) == 0 :
                 dict_absen[day].append('N')
 
@@ -127,3 +127,110 @@ def load_monthly_table_data(df_participant, df_presensi, month=1, year=2022) :
         dict_absen['total_late'].append(total_minutes)
 
     return pd.DataFrame(dict_absen)
+
+def load_yearly(df_presensi, participant_id=0, year=2022) :
+    days = []
+    for i in range(12) :
+        days.append([datetime.date(year, i+1, d+1) for d in range(calendar.monthrange(year,i+1)[1])])
+
+    # weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    dict_analysis = {}
+
+    monthdict = { 'January' : 1 ,
+                  'February' : 2,
+                  'March' : 3,
+                  'April' : 4,
+                  'May' : 5,
+                  'June' : 6,
+                  'July' : 7,
+                  'August' : 8,
+                  'September' : 9,
+                  'October' : 10,
+                  'November' : 11,
+                  'December' : 12}
+    
+    allmonth = {}
+    for imonth in range(12) :
+        monthly_ = {}
+        if imonth == 11 :
+            presentlist = df_presensi[  (df_presensi['Participant_id'] == participant_id) & 
+                                    (df_presensi['Date'] >= datetime.date(year,imonth+1,1)) & 
+                                    (df_presensi['Date'] <= datetime.date(year,imonth+1,31))]
+        else :
+            presentlist = df_presensi[  (df_presensi['Participant_id'] == participant_id) & 
+                                    (df_presensi['Date'] >= datetime.date(year,imonth+1,1)) & 
+                                    (df_presensi['Date'] < datetime.date(year,imonth+2,1))]
+         
+        # print(len(presentlist))
+        daysindata = presentlist['Date'].values
+        presentotal = 0
+        absentotal = 0
+        nodata = 0
+        if len(df_presensi['Date'].values) > 0 :
+            mindate = min(df_presensi['Date'].values)
+            maxdate = max(df_presensi['Date'].values)
+            for day in days[imonth]:
+                if day.weekday() == 5 or day.weekday() == 6 :
+                    pass
+            
+                elif day < mindate or day > maxdate :
+                    nodata += 1
+
+                elif day in daysindata :
+                    # dict_absen[day].append('P')
+                    presentotal += 1
+
+                else :
+                    # dict_absen[day].append('A')
+                    absentotal += 1
+        else :
+            for day in days[imonth]:
+                if day.weekday() == 5 or day.weekday() == 6 :
+                    pass
+            
+                else :
+                    nodata += 1
+        totaldata = presentotal + absentotal + nodata
+        monthly_['total_present'] = presentotal
+        monthly_['present_pct'] = round((presentotal/totaldata)*100)
+        monthly_['total_absent'] = absentotal
+        monthly_['absent_pct'] = round((absentotal/totaldata)*100)
+        monthly_['nodata'] = nodata
+        monthly_['nodata_pct'] = round((nodata/totaldata)*100)
+        allmonth[str(imonth+1)] = monthly_
+    dict_analysis['monthly'] = allmonth
+    
+    totalpresent = 0
+    totalabsent = 0
+    totalnodata = 0
+    for i in range(12) :
+        totalpresent += dict_analysis['monthly'][str(i+1)]['total_present']
+        totalabsent += dict_analysis['monthly'][str(i+1)]['total_absent']
+        totalnodata += dict_analysis['monthly'][str(i+1)]['nodata']
+    
+    totaldata = totalabsent + totalpresent + totalnodata
+    dict_analysis['yearly'] = { 'total_present': totalpresent,
+                                'total_absent': totalabsent,
+                                'total_nodata': totalnodata,
+                                'presentpct': round((totalpresent/totaldata)*100),
+                                'absentpct': round((totalabsent/totaldata)*100),
+                                'nodatapct': round((totalnodata/totaldata)*100)
+                            }
+    # print(totalpresent)
+    # for y in range(12) :
+    #     monthly_ = {}
+    #     monthly_['total_present'] = 
+    # dates = 0
+    # for day in days :
+    #     wkday = weekdays[day.weekday()]
+    #     dict_absen[day] = []
+    #     dates += 1
+    
+    # print(max(df_presensi['Date'].values))
+    # # dict_absen
+    
+    #     dict_absen['presensi_total'].append(presentotal)
+    #     dict_absen['absensi_total'].append(absentotal)
+    #     dict_absen['cuti_total'].append(0)
+
+    return dict_analysis

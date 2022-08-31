@@ -7,6 +7,18 @@ import datetime, calendar
 
 app = Flask(__name__)
 twelvemonth = ['January','February','March','April','May']
+monthdict = { 'January' : 1 ,
+                  'February' : 2,
+                  'March' : 3,
+                  'April' : 4,
+                  'May' : 5,
+                  'June' : 6,
+                  'July' : 7,
+                  'August' : 8,
+                  'September' : 9,
+                  'October' : 10,
+                  'November' : 11,
+                  'December' : 12}
 host = '192.168.1.73'
 database = 'presensi_epsindo'
 username = 'root'
@@ -28,8 +40,20 @@ def dashboard(user = 0):
                            password=password)
     
     df_participant = data.load_participants(connection)
-    
-    page_info = {'page':'index', 'months':twelvemonth}
+    print("Current user id : ", user)
+    df_presensi = data.load_presensi(connection)
+    df_yearly = data.load_yearly(df_presensi, participant_id=int(user))
+
+    curr_user = df_participant[df_participant['id'] == int(user)].values[0]
+    df_participant = df_participant[df_participant['id'] != int(user)]
+    df_participant = df_participant.sort_values('name', ascending=True)
+
+    page_info = {'page':'index', 
+                 'months':list(monthdict.keys()), 
+                 'data_yearly':df_yearly, 
+                 'data_participant':df_participant, 
+                 'data_current_user':curr_user}
+
     return render_template('index.html', result = page_info)
 
 @app.route('/monthly/<month>')
