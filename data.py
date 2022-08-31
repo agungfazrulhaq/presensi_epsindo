@@ -1,5 +1,8 @@
 from math import floor
 from datetime import date
+import pandas as pd
+import numpy as np
+import datetime, calendar
 
 def test():
     return "Imported DATA Module."
@@ -15,7 +18,7 @@ def format_timedelta(td):
 def total_late(fi) :
     if fi.total_seconds()/3600 >= 10:
         tolate = (fi.total_seconds() - (3600*10))/60
-        return str(tolate) + " Minute"
+        return tolate
     else :
         return 0
 
@@ -65,8 +68,10 @@ def load_participants(conn, department=-1):
     return participant_df
 
 def load_monthly_table_data(df_participant, df_presensi, month=1, year=2022) :
-    days = [datetime.date(y, m, d+1) for d in range(calendar.monthrange(y,m)[1])]
+    days = [datetime.date(year, month, d+1) for d in range(calendar.monthrange(year,month)[1])]
     weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+    # df_presensi['datetimedate'] = df_presensi["Date"].apply(lambda x : datetime.datetime.strptime(x, "%Y-%m-%d").date())
     dict_absen = {'Name':[]}
 
     dates = 0
@@ -74,16 +79,51 @@ def load_monthly_table_data(df_participant, df_presensi, month=1, year=2022) :
         wkday = weekdays[day.weekday()]
         dict_absen[day] = []
         dates += 1
-
+    dict_absen['presensi_total'] = []
+    dict_absen['absensi_total'] = []
+    dict_absen['cuti_total'] = []
+    dict_absen['total_late'] = []
+    if len(df_presensi['Date'].values) > 0 :
+        mindate = min(df_presensi['Date'].values)
+        maxdate = max(df_presensi['Date'].values)
+    print(df_presensi)
     # dict_absen
     for ind,val in df_participant.iterrows() :
-        dict_absen['Name'].append(val['Name'])
-        presentlist = df_presensi[df_presensi["Participant_id"] == val["id_p"]]
-        daysindata = presentlist['datetimedate'].values
+        dict_absen['Name'].append(val['name'])
+        presentlist = df_presensi[df_presensi["Participant_id"] == val["id"]]
+        daysindata = presentlist['Date'].values
+        total_minutes = 0
+        for x in presentlist['total_late'].values :
+            total_minutes += x
+        # total_late_seconds = 0
+        # for ind, val in presentlist.iterrows():
+        #     if np.isnat(val['firstcheckin']) == False :
+        #         if val['firstcheckin'].total_seconds() > 36000 :
+        #             total_late_seconds = val['firstcheckin'].total_seconds() - 36000
+
+        presentotal = 0
+        absentotal = 0
         for day in days:
-            if day in daysindata :
+            if day.weekday() == 5 or day.weekday() == 6 :
+                dict_absen[day].append('L')
+                
+            elif len(df_presensi['Date'].values) == 0 :
+                dict_absen[day].append('N')
+
+            elif day < mindate or day > maxdate :
+                dict_absen[day].append('N')
+
+            elif day in daysindata :
                 dict_absen[day].append('P')
+                presentotal += 1
+
             else :
                 dict_absen[day].append('A')
+                absentotal += 1
+
+        dict_absen['presensi_total'].append(presentotal)
+        dict_absen['absensi_total'].append(absentotal)
+        dict_absen['cuti_total'].append(0)
+        dict_absen['total_late'].append(total_minutes)
 
     return pd.DataFrame(dict_absen)
