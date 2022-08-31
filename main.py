@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 import pandas as pd
 import numpy as np
 import mysql.connector as sqlconnector
@@ -18,6 +18,17 @@ connection = sqlconnector.connect(host=host,
 
 @app.route('/')
 def index():
+    return redirect(url_for('dashboard', user=0))
+
+@app.route('/dashboard/<user>')
+def dashboard(user = 0):
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
+    
+    df_participant = data.load_participants(connection)
+    
     page_info = {'page':'index', 'months':twelvemonth}
     return render_template('index.html', result = page_info)
 
