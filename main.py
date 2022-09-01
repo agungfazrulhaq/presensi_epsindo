@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
+from werkzeug.utils import secure_filename
 import pandas as pd
 import numpy as np
 import mysql.connector as sqlconnector
@@ -42,7 +43,8 @@ def dashboard(user = 0):
     df_participant = data.load_participants(connection)
     print("Current user id : ", user)
     df_presensi = data.load_presensi(connection)
-    df_yearly = data.load_yearly(df_presensi, participant_id=int(user))
+    df_leave = data.load_leave(connection)
+    df_yearly = data.load_yearly(df_presensi,df_leave, participant_id=int(user))
 
     curr_user = df_participant[df_participant['id'] == int(user)].values[0]
     df_participant = df_participant[df_participant['id'] != int(user)]
@@ -77,7 +79,9 @@ def monthly(month='January'):
 
     df_presensi = data.load_presensi(connection, month=month)
     df_participant = data.load_participants(connection)
-    df_monthly_data = data.load_monthly_table_data(df_participant, df_presensi, month=monthdict[month])
+    df_leave = data.load_leave(connection)
+    df_monthly_data = data.load_monthly_table_data(df_participant, df_presensi, df_leave, month=monthdict[month])
+
     weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     dict_rename = {}
     day_col = 1
@@ -93,9 +97,16 @@ def monthly(month='January'):
 
 @app.route('/importdata')
 def import_data():
-
     page_info = {'page':'importdata', 'months':twelvemonth}
+
     return render_template('importdata.html', result=page_info)
+
+@app.route('/importer', methods= ['GET','POST'])
+def importer():
+    if request.method == 'POST':
+      f = request.files['file']
+      f.save(secure_filename(f.filename))
+      return 'file uploaded successfully'
 
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', debug=True)

@@ -69,6 +69,10 @@
                                         aria-label="absentseg" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
                                         {{ data_monthly['total_absent'] }}
                                     </div>
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ data_monthly['leave_pct'] }}%"
+                                        aria-label="absentseg" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                                        {{ data_monthly['total_leave'] }}
+                                    </div>
                                     <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ data_monthly['nodata_pct'] }}%"
                                         aria-label="leaveseg" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                                         {{ data_monthly['nodata'] }}
@@ -176,9 +180,9 @@
         var myPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ["Present", "Absent", "No Data"],
+            labels: ["Present", "Absent", "Leave"],
             datasets: [{
-            data: [{{ result['data_yearly']['yearly']['total_present'] }}, {{ result['data_yearly']['yearly']['total_absent'] }}, {{ result['data_yearly']['yearly']['total_nodata'] }} ],
+            data: [{{ result['data_yearly']['yearly']['total_present'] }}, {{ result['data_yearly']['yearly']['total_absent'] }}, {{ result['data_yearly']['yearly']['total_leave'] }} ],
             backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
             hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
             hoverBorderColor: "rgba(234, 236, 244, 1)",
