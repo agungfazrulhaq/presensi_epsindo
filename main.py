@@ -101,12 +101,14 @@ def import_data():
 
     return render_template('importdata.html', result=page_info)
 
-@app.route('/importer', methods= ['GET','POST'])
+@app.route('/presensiimporter', methods= ['GET','POST'])
 def importer():
+    page_info = {'page':'importdata', 'months':twelvemonth}
     if request.method == 'POST':
-      f = request.files['file']
-      f.save(secure_filename(f.filename))
-      return 'file uploaded successfully'
+        f = request.files['file']
+        print(f.filename)
+        f.save(secure_filename(f.filename))
+        return 'file uploaded successfully'
 
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', debug=True)

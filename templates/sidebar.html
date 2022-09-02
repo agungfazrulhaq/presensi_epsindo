@@ -77,9 +77,17 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="/importdata">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapseData"
+            aria-expanded="true" aria-controls="collapseData">
             <i class="fas fa-fw fa-upload"></i>
-            <span>Data</span></a>
+            <span>Data</span>
+        </a>
+        <div id="collapseData" class="collapse" aria-labelledby="headingData" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="/importdata">Presensi</a>
+                <a class="collapse-item" href="/importdata">Leave</a>
+            </div>
+        </div>
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
