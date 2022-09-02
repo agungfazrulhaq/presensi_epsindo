@@ -95,15 +95,23 @@ def monthly(month='January'):
     page_info = {'page':'monthly', 'month':month, 'data_monthly':df_monthly_data}
     return render_template('monthly.html', result = page_info)
 
-@app.route('/importdata')
-def import_data():
-    page_info = {'page':'importdata', 'months':twelvemonth}
+@app.route('/importdata/<part>')
+def import_data(part = 'presensi'):
+    page_info = {'page':'importdata', 'months':twelvemonth, 'part':part}
 
     return render_template('importdata.html', result=page_info)
 
 @app.route('/presensiimporter', methods= ['GET','POST'])
-def importer():
-    page_info = {'page':'importdata', 'months':twelvemonth}
+def preimporter():
+    page_info = {'page':'presensi', 'months':twelvemonth}
+    if request.method == 'POST':
+        f = request.files['file']
+        print(f.filename)
+        f.save(secure_filename(f.filename))
+        return 'file uploaded successfully'
+
+@app.route('/leimporter', methods=['GET', 'POST'])
+def leimporter():
     if request.method == 'POST':
         f = request.files['file']
         print(f.filename)

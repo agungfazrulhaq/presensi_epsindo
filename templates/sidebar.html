@@ -82,12 +82,28 @@
             <i class="fas fa-fw fa-upload"></i>
             <span>Data</span>
         </a>
-        <div id="collapseData" class="collapse" aria-labelledby="headingData" data-parent="#accordionSidebar">
+        {% set partlist = ['presensi', 'leave'] %}
+        {% if result['page'] == 'importdata' %}
+        <div id="collapseData" class="collapse show" aria-labelledby="headingData" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/importdata">Presensi</a>
-                <a class="collapse-item" href="/importdata">Leave</a>
+            {% for part in partlist %}
+                {% if part == result['part'] %}
+                    <a class="collapse-item active" href="/importdata/{{ part }}">{{ part | capitalize }}</a>
+                {% else %}
+                    <a class="collapse-item" href="/importdata/{{ part }}">{{ part | capitalize }}</a>
+                {% endif %}
+            {% endfor %}
             </div>
         </div>
+        {% else %}
+        <div id="collapseData" class="collapse" aria-labelledby="headingData" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+            {% for part in partlist %}
+                <a class="collapse-item" href="/importdata/{{ part }}">{{ part | capitalize }}</a>
+            {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
