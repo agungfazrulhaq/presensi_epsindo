@@ -95,22 +95,38 @@ def monthly(month='January'):
     page_info = {'page':'monthly', 'month':month, 'data_monthly':df_monthly_data}
     return render_template('monthly.html', result = page_info)
 
-@app.route('/importdata/<part>')
-def import_data(part = 'presensi'):
-    page_info = {'page':'importdata', 'months':twelvemonth, 'part':part}
+@app.route('/importdata/<part>/preview=<filename>')
+def import_data(part = 'presensi', filename='None'):
+    if filename=='None' :
+        page_info = {'page':'importdata', 'months':twelvemonth, 'part':part, 'filename':filename}
+    else :
+        df_part, df_dep, df_presensi = data.read_presensi_file(filename)
+        if len(df_presensi.columns) == 0:
+            page_info = {'page':'importdata', 
+                     'months':twelvemonth, 
+                     'part':part, 
+                     'filename':'error', 
+                     'data_presensi':'error'}
+        
+        else :
+            page_info = {'page':'importdata', 
+                     'months':twelvemonth, 
+                     'part':part, 
+                     'filename':filename, 
+                     'data_presensi':df_presensi}
 
     return render_template('importdata.html', result=page_info)
 
-@app.route('/presensiimporter', methods= ['GET','POST'])
+@app.route('/importpresensi', methods= ['GET','POST'])
 def preimporter():
     page_info = {'page':'presensi', 'months':twelvemonth}
     if request.method == 'POST':
         f = request.files['file']
         print(f.filename)
         f.save(secure_filename(f.filename))
-        return 'file uploaded successfully'
+        return redirect(url_for('import_data', part='presensi', filename=f.filename))
 
-@app.route('/leimporter', methods=['GET', 'POST'])
+@app.route('/importleave', methods=['GET', 'POST'])
 def leimporter():
     if request.method == 'POST':
         f = request.files['file']

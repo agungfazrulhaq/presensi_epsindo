@@ -17,7 +17,11 @@
                             <h6 class="m-0 font-weight-bold text-primary">Import Data</h6>
                         </div>
                         <div class="card-body">
-                            <form action="/importer", method="POST" enctype="multipart/form-data">
+                            {% if result['part']=='presensi' %}
+                            <form action="/importpresensi", method="POST" enctype="multipart/form-data">
+                            {% else %}
+                            <form action="/importleave", method="POST" enctype="multipart/form-data">
+                            {% endif %} 
                                 <span class="btn btn-primary btn-icon-split btn-sm" 
                                     onclick="document.getElementById('importFile').click();">
                                     <span class="icon text-white-50">
@@ -52,6 +56,14 @@
                         </div>
                     </div>
                     </div>
+                    {% if result['filename'] != 'None' %}
+                    {% if result['filename'] == 'error' : %}
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <p class="text-danger"> Error: Failed reading the excel file </p>
+                        </div>
+                    </div>
+                    {% else %}
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Preview</h6>
@@ -59,11 +71,25 @@
                         <div class="card-body">
                             <table class="table table-bordered">
                                 <tr>
-                                    <td></td>
+                                    {% for col in result['data_presensi'].columns %}
+                                    <th>{{ col }}</th>
+                                    {% endfor %}
                                 </tr>
+                                {% for ind,val in result['data_presensi'].iterrows() : %}
+                                <tr>
+                                    <td>{{ val['Date'] }}</td>
+                                    <td>{{ val['Name'] }}</td>
+                                    <td>{{ val['Participant_id'] }}</td>
+                                    <td>{{ val['Status'] }}</td>
+                                    <td>{{ val['First Check In'] }}</td>
+                                    <td>{{ val['Last Check Out'] }}</td>
+                                </tr>
+                                {% endfor %}
                             </table>
                         </div>
                     </div>
+                    {% endif %}
+                    {% endif %}
                     
                 </div>
             </div>

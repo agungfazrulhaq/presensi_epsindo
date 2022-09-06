@@ -276,3 +276,57 @@ def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
 
     return dict_analysis
 
+def check_xls_file(columns) :
+    arr_validation = ['Date', 'ID', 'Name', 'Status', 'First Check In', 'Last Check Out',
+                      'Duration (Hour)', 'Break (Hour)', 'Actual (Hour)', 'Overtime (Hour)',
+                      'Remark', 'Department', 'Branch']
+
+    flag = True
+    for i in range(len(arr_validation)) :
+        if columns[i] != arr_validation[i] :
+            flag = False
+
+    return flag
+
+def read_presensi_file(filename) :
+    df = pd.read_excel(filename)
+
+    df.columns = df.iloc[6].values
+
+    if check_xls_file(df.columns) == False :
+        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+    # print(df.columns)
+    df = df[7:]
+    department_name = df['Department'].unique()
+    id_dep = []
+    for x in range(len(department_name)):
+        id_dep.append(x)
+        if pd.isna(department_name[x]) :
+            department_name[x] = 'Other'
+    data_department = {'id':id_dep, 'name':department_name}
+    df_department = pd.DataFrame(data_department)
+
+    participant_name = df['Name'].unique()
+    id_participant = [i for i in range(len(participant_name))]
+    id_department = ['non' for i in range(len(participant_name))]
+    email = ['None' for i in range(len(participant_name))]
+    # iter_d = 0
+    for ind,val in df.iterrows() :
+        if id_department[np.where(participant_name == val['Name'])[0][0]] == 'non' :
+            if pd.isna(val['Department']) == False :
+                id_department[np.where(participant_name == val['Name'])[0][0]] = id_dep[np.where(department_name == val['Department'])[0][0]]
+            else :
+                id_department[np.where(participant_name == val['Name'])[0][0]] = id_dep[np.where(department_name == 'Other')[0][0]]
+            # iter_d += 1
+
+    dict_participant = {'id_p':id_participant, 'Name':participant_name, 'dep_id':id_department, 'email':email}
+    df_participant = pd.DataFrame(dict_participant)
+
+    partid_df = []
+    for ind, val in df.iterrows():
+        partid_df.append(df_participant[df_participant['Name'] == val['Name']]['id_p'].values[0])
+
+    df['Participant_id'] = partid_df
+    df_presensi = df[['Date','Name', 'Participant_id', 'Status', 'First Check In', 'Last Check Out']]
+
+    return df_participant, df_department, df_presensi

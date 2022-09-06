@@ -88,9 +88,9 @@
             <div class="bg-white py-2 collapse-inner rounded">
             {% for part in partlist %}
                 {% if part == result['part'] %}
-                    <a class="collapse-item active" href="/importdata/{{ part }}">{{ part | capitalize }}</a>
+                    <a class="collapse-item active" href="/importdata/{{ part }}/preview=None">{{ part | capitalize }}</a>
                 {% else %}
-                    <a class="collapse-item" href="/importdata/{{ part }}">{{ part | capitalize }}</a>
+                    <a class="collapse-item" href="/importdata/{{ part }}/preview=None">{{ part | capitalize }}</a>
                 {% endif %}
             {% endfor %}
             </div>
@@ -99,7 +99,7 @@
         <div id="collapseData" class="collapse" aria-labelledby="headingData" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
             {% for part in partlist %}
-                <a class="collapse-item" href="/importdata/{{ part }}">{{ part | capitalize }}</a>
+                <a class="collapse-item" href="/importdata/{{ part }}/preview=None">{{ part | capitalize }}</a>
             {% endfor %}
             </div>
         </div>

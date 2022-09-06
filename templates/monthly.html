@@ -3,6 +3,8 @@
 
 <head>
     {% include 'css-include.html' %}
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body id="page-top">
     <div id="wrapper">
@@ -12,7 +14,7 @@
                 <div class="container-fluid">
                     <h1 class="h3 mb-4 text-gray-800" style="margin-top:30px;">Monthly Attendance Table</h1>
 
-                    <div class="dropdown mb-4">
+                    <!-- <div class="dropdown mb-4">
                         <button class="btn btn-primary dropdown-toggle" type="button"
                             id="dropdownyears" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
@@ -22,8 +24,23 @@
                             aria-labelledby="dropdownyears">
                             <a class="dropdown-item" href="#">2021</a>
                             <a class="dropdown-item" href="#">2019</a>
-                            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                         </div>
+                    </div> -->
+                    <div class="row mb-4 ml-1">
+                        <input id="datepicker" width="276" placeholder="Start"/>
+                            <script>
+                                $('#datepicker').datepicker({
+                                    uiLibrary: 'bootstrap4'
+                                });
+                            </script>
+                            &nbsp;&nbsp;
+                        <input id="datepickerend" width="276" placeholder="End"/>
+                            <script>
+                                $('#datepickerend').datepicker({
+                                    uiLibrary: 'bootstrap4'
+                                });
+                            </script>
+                        <input type="submit"  class="btn btn-sm btn-primary ml-1 text-light" value="Go">
                     </div>
                     <div class="row">
                         <div class="col-lg-3 col-md-6 mb-4">
@@ -43,13 +60,13 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-75 py-1">
+                            <div class="card border-left-warning shadow h-75 py-1">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <table class="table table-bordered table-sm" style="text-align:center;">
                                                 <tr>
-                                                    <td class="bg-success text-light">A</td>
+                                                    <td class="bg-warning text-light">A</td>
                                                     <td>Absent</td>
                                                 </tr>
                                             </table>
@@ -59,13 +76,13 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-75 py-1">
+                            <div class="card border-left-success shadow h-75 py-1">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <table class="table table-bordered table-sm" style="text-align:center;">
                                                 <tr>
-                                                    <td class="bg-info text-light">C</td>
+                                                    <td class="bg-success text-light">C</td>
                                                     <td>Cuti</td>
                                                 </tr>
                                             </table>
@@ -93,11 +110,11 @@
                                     {{ vals }}
                                 </td>
                                 {% elif vals == 'C' %}
-                                <td class="bg-info text-light">
+                                <td class="bg-success text-light">
                                     {{ vals }}
                                 </td>
                                 {% elif vals == 'A' %}
-                                <td class="bg-success text-light">
+                                <td class="bg-warning text-light">
                                     {{ vals }}
                                 </td>
                                 {% elif vals == 'L' %}
