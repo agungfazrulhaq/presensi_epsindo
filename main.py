@@ -109,6 +109,7 @@ def import_data(part = 'presensi', filename='None'):
                      'data_presensi':'error'}
         
         else :
+            print(df_presensi.columns)
             page_info = {'page':'importdata', 
                      'months':twelvemonth, 
                      'part':part, 
@@ -124,7 +125,7 @@ def preimporter():
         f = request.files['file']
         print(f.filename)
         f.save(secure_filename(f.filename))
-        return redirect(url_for('import_data', part='presensi', filename=f.filename))
+        return redirect(url_for('import_data', part='presensi', filename=f.filename.replace(" ", "_")))
 
 @app.route('/importleave', methods=['GET', 'POST'])
 def leimporter():
