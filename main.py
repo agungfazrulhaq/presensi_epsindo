@@ -118,10 +118,15 @@ def import_data(part = 'presensi', filename='None'):
                                                                 subset_=['Date', 
                                                                          'Participant_id', 
                                                                          'status'])
+            if True in df_presensi['duplicated'].values :
+                duplicate_data = True
+            else :
+                duplicate_data = False
             page_info = {'page':'importdata', 
                      'months':twelvemonth, 
                      'part':part, 
-                     'filename':filename, 
+                     'filename':filename,
+                     'duplicated':duplicate_data, 
                      'data_presensi':df_presensi}
 
     return render_template('importdata.html', result=page_info)

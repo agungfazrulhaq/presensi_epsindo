@@ -356,3 +356,42 @@ def check_duplicate_data(df, source, subset_) :
     # print(df_.duplicated(keep=False).values)
     
     return arr_
+
+def import_presensi(conn, df, filename, dup_action='replace') :
+    if dup_action == 'replace' :
+        cur = conn.cursor()
+        cutted_df = df[df['duplicated']]
+        for ind,val in cutted_df.iterrows():
+            query = 'DELETE FROM presensi_table WHERE date="' + str(val['Date']) + '" AND participant_id=' + str(val['Participant_id']) + ' AND status="' + str(val['status'])+'"'
+            cur.execute(query)
+        conn.commit()
+        print(cur.rowcount, "rows executed.")
+
+        df = df.fillna(np.nan).replace([np.nan], [None])
+        df['firstcheckin'] = pd.to_datetime(df['firstcheckin'], format='%I:%M %p').dt.strftime('%H:%M:%S')
+        df['lastcheckout'] = pd.to_datetime(df['lastcheckout'], format='%I:%M %p').dt.strftime('%H:%M:%S')
+        df = df[['Date','participant_id','status','firstcheckin', 'lastcheckout']]
+        
+        sql = "INSERT INTO presensi_table (date, participant_id, status, firstcheckin, lastcheckout)  VALUES (%s, %s, %s, %s, %s)"
+        values = []
+        for ind,val in df.iterrows() :
+            # print(val.values)
+            values = tuple(val.values)
+            cur.execute(sql, values)
+        conn.commit()
+        print(cur.rowcount, "rows executed.")
+    else :
+        df = df[~df['duplicated']]
+        df = df.fillna(np.nan).replace([np.nan], [None])
+        df['firstcheckin'] = pd.to_datetime(df['firstcheckin'], format='%I:%M %p').dt.strftime('%H:%M:%S')
+        df['lastcheckout'] = pd.to_datetime(df['lastcheckout'], format='%I:%M %p').dt.strftime('%H:%M:%S')
+        df = df[['Date','participant_id','status','firstcheckin', 'lastcheckout']]
+        
+        sql = "INSERT INTO presensi_table (date, participant_id, status, firstcheckin, lastcheckout)  VALUES (%s, %s, %s, %s, %s)"
+        values = []
+        for ind,val in df.iterrows() :
+            # print(val.values)
+            values = tuple(val.values)
+            cur.execute(sql, values)
+        conn.commit()
+        print(cur.rowcount, "rows executed.")
