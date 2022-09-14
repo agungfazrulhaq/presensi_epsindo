@@ -97,6 +97,10 @@ def monthly(month='January'):
 
 @app.route('/importdata/<part>/preview=<filename>')
 def import_data(part = 'presensi', filename='None'):
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
     if filename=='None' :
         page_info = {'page':'importdata', 'months':twelvemonth, 'part':part, 'filename':filename}
     else :
@@ -109,7 +113,11 @@ def import_data(part = 'presensi', filename='None'):
                      'data_presensi':'error'}
         
         else :
-            print(df_presensi.columns)
+            df_presensi['duplicated'] = data.check_duplicate_data(df_presensi, 
+                                                                data.load_presensi(connection), 
+                                                                subset_=['Date', 
+                                                                         'Participant_id', 
+                                                                         'status'])
             page_info = {'page':'importdata', 
                      'months':twelvemonth, 
                      'part':part, 

@@ -328,8 +328,31 @@ def read_presensi_file(filename) :
 
     df['Participant_id'] = partid_df
     df_presensi = df[['Date','Name', 'Participant_id', 'Status', 'First Check In', 'Last Check Out']]
+    df_presensi.columns = ['Date', 'Name', 'Participant_id', 'status', 'firstcheckin', 'lastcheckout']
 
     return df_participant, df_department, df_presensi
 
-def check_duplicate_data(df) :
+def check_duplicate_data(df, source, subset_) :
+    df_ = df[subset_]
+    df_['Date'] = df_['Date'].astype(str)
+    source_ = source[subset_]
+    source_['Date'] = source_['Date'].astype(str)
+    print(df_.describe())
+    print(source_.dtypes)
+    print(len(source_)," ", len(df_))
+    arr_ = []
+    for ind,val in df_.iterrows() :
+        flag = False
+        for comp_val in source_.values :
+            inside_flag = True
+            for i in range(len(val.values)) :
+                if comp_val[i] != val.values[i] :
+                    inside_flag = False
+            if inside_flag :
+                flag = True
+                break
+        arr_.append(flag)
     
+    # print(df_.duplicated(keep=False).values)
+    
+    return arr_
