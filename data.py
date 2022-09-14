@@ -330,3 +330,6 @@ def read_presensi_file(filename) :
     df_presensi = df[['Date','Name', 'Participant_id', 'Status', 'First Check In', 'Last Check Out']]
 
     return df_participant, df_department, df_presensi
+
+def check_duplicate_data(df) :
+    
