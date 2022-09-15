@@ -5,6 +5,8 @@ import numpy as np
 import mysql.connector as sqlconnector
 import data
 import datetime, calendar
+import random
+import os
 
 app = Flask(__name__)
 twelvemonth = ['January','February','March','April','May']
@@ -122,13 +124,17 @@ def import_data(part = 'presensi', filename='None'):
                 duplicate_data = True
             else :
                 duplicate_data = False
+            randomized_namefile = str(random.randint(100000,999999)) + ".csv"
+            df_presensi.to_csv(randomized_namefile, index=False)
             page_info = {'page':'importdata', 
                      'months':twelvemonth, 
                      'part':part, 
                      'filename':filename,
+                     'importing_filename': randomized_namefile,
                      'duplicated':duplicate_data, 
                      'data_presensi':df_presensi}
-
+            
+            
     return render_template('importdata.html', result=page_info)
 
 @app.route('/importpresensi', methods= ['GET','POST'])
@@ -139,6 +145,18 @@ def preimporter():
         print(f.filename)
         f.save(secure_filename(f.filename))
         return redirect(url_for('import_data', part='presensi', filename=f.filename.replace(" ", "_")))
+
+@app.route('/importpresensi/insertdb/<dup_action>-<csvfile>')
+def importpresensidb(dup_action, csvfile) :
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
+    df_pres = pd.read_csv(csvfile)
+    firstrow = df_pres['Date'].iloc[0]
+    data.import_presensi(connection, df_pres, csvfile, dup_action=dup_action)
+
+    return redirect(url_for('monthly', month=list(monthdict.keys())[list(monthdict.values()).index(int(firstrow[5:7]))]))
 
 @app.route('/importleave', methods=['GET', 'POST'])
 def leimporter():

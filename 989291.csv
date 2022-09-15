@@ -1,0 +1,322 @@
+Date,Name,Participant_id,status,firstcheckin,lastcheckout,duplicated
+2022-07-26,Chris Ariwibowo,0,IN,09:53 AM,,True
+2022-07-26,Mirsan Mirsan,1,IN,09:50 AM,,True
+2022-07-26,Slamat Riadi,2,IN,09:22 AM,,False
+2022-07-26,Sumarno Sumarno,3,IN,09:22 AM,,True
+2022-07-26,Bayu Bayu,4,IN,08:41 AM,,True
+2022-07-26,Yuni Aryani,5,IN,09:47 AM,,True
+2022-07-26,Jumyati Jumyati,6,IN,09:36 AM,,True
+2022-07-26,Ineke Sri Lestari,7,IN,09:49 AM,,True
+2022-07-26,Cahyanto Cahyanto,8,IN,09:58 AM,,True
+2022-07-26,Fachrudin Ali,9,IN,09:23 AM,,True
+2022-07-26,Nuryanti Nuryanti,10,IN,09:48 AM,,False
+2022-07-26,Setia Wayah Gutama,11,IN,09:59 AM,,True
+2022-07-26,harun boerhan,12,IN,09:56 AM,,True
+2022-07-26,Nurahdiatna Subagya,13,IN,09:58 AM,,True
+2022-07-26,Mark Kenny Williams,14,IN,10:13 AM,,False
+2022-07-26,Muh. Agung Fasrulhaq,15,IN,10:07 AM,,True
+2022-07-26,raisul amin,16,IN,09:57 AM,,True
+2022-07-25,Chris Ariwibowo,0,Present,09:53 AM,05:00 PM,False
+2022-07-25,Mirsan Mirsan,1,Present,08:56 AM,05:00 PM,False
+2022-07-25,Slamat Riadi,2,Present,09:08 AM,05:00 PM,True
+2022-07-25,Sumarno Sumarno,3,Present,09:02 AM,05:03 PM,True
+2022-07-25,Bayu Bayu,4,Present,08:41 AM,05:01 PM,True
+2022-07-25,Yuni Aryani,5,Present,05:00 PM,05:00 PM,False
+2022-07-25,Jumyati Jumyati,6,Present,09:36 AM,05:06 PM,False
+2022-07-25,Ineke Sri Lestari,7,Present,09:50 AM,05:00 PM,False
+2022-07-25,Cahyanto Cahyanto,8,Present,09:43 AM,05:05 PM,True
+2022-07-25,Fachrudin Ali,9,Present,09:44 AM,05:06 PM,True
+2022-07-25,Nuryanti Nuryanti,10,Present,08:56 AM,05:00 PM,True
+2022-07-25,Melissa Christina Tuwoh,17,Present,09:55 AM,05:09 PM,True
+2022-07-25,Setia Wayah Gutama,11,Present,05:05 PM,05:05 PM,False
+2022-07-25,Lina Wirahadi,18,Present,05:02 PM,05:02 PM,False
+2022-07-25,Nurahdiatna Subagya,13,Present,09:49 AM,05:05 PM,False
+2022-07-25,Mark Kenny Williams,14,Present,10:30 AM,05:08 PM,True
+2022-07-25,Muh. Agung Fasrulhaq,15,Present,10:04 AM,05:01 PM,True
+2022-07-25,raisul amin,16,Present,09:59 AM,05:00 PM,True
+2022-07-22,Chris Ariwibowo,0,Present,09:55 AM,05:00 PM,True
+2022-07-22,Mirsan Mirsan,1,Present,09:23 AM,05:03 PM,True
+2022-07-22,Slamat Riadi,2,Present,09:04 AM,05:01 PM,True
+2022-07-22,Dwi Septia Ningsih,19,Present,09:47 AM,05:01 PM,True
+2022-07-22,Sumarno Sumarno,3,Present,09:00 AM,05:03 PM,True
+2022-07-22,Bayu Bayu,4,Present,09:03 AM,05:00 PM,True
+2022-07-22,Yuni Aryani,5,Present,09:58 AM,05:00 PM,True
+2022-07-22,Jumyati Jumyati,6,Present,10:01 AM,05:04 PM,True
+2022-07-22,Ineke Sri Lestari,7,Present,09:43 AM,05:00 PM,True
+2022-07-22,Cahyanto Cahyanto,8,IN,10:07 AM,,True
+2022-07-22,Fachrudin Ali,9,Present,09:37 AM,05:06 PM,True
+2022-07-22,Nuryanti Nuryanti,10,Present,09:44 AM,05:00 PM,True
+2022-07-22,Melissa Christina Tuwoh,17,IN,10:06 AM,,True
+2022-07-22,Setia Wayah Gutama,11,Present,09:48 AM,05:02 PM,True
+2022-07-22,harun boerhan,12,IN,09:50 AM,,True
+2022-07-22,Lina Wirahadi,18,Present,05:03 PM,05:03 PM,True
+2022-07-22,Nurahdiatna Subagya,13,Present,09:47 AM,05:04 PM,True
+2022-07-22,Muh. Agung Fasrulhaq,15,Present,10:05 AM,05:01 PM,True
+2022-07-22,raisul amin,16,Present,09:54 AM,05:00 PM,True
+2022-07-21,Chris Ariwibowo,0,Present,09:55 AM,05:00 PM,True
+2022-07-21,Mirsan Mirsan,1,Present,09:14 AM,05:05 PM,True
+2022-07-21,Slamat Riadi,2,Present,09:12 AM,05:00 PM,True
+2022-07-21,Dwi Septia Ningsih,19,Present,09:12 AM,05:05 PM,True
+2022-07-21,Sumarno Sumarno,3,Present,08:53 AM,05:06 PM,True
+2022-07-21,Bayu Bayu,4,Present,08:59 AM,05:00 PM,True
+2022-07-21,Yuni Aryani,5,Present,09:40 AM,05:01 PM,True
+2022-07-21,Jumyati Jumyati,6,Present,05:03 PM,05:04 PM,True
+2022-07-21,Ineke Sri Lestari,7,Present,09:52 AM,05:00 PM,True
+2022-07-21,Cahyanto Cahyanto,8,Present,09:52 AM,05:04 PM,True
+2022-07-21,Fachrudin Ali,9,Present,09:40 AM,05:17 PM,True
+2022-07-21,Nuryanti Nuryanti,10,Present,09:03 AM,05:01 PM,True
+2022-07-21,Melissa Christina Tuwoh,17,Present,09:53 AM,05:03 PM,True
+2022-07-21,Setia Wayah Gutama,11,Present,10:18 AM,05:14 PM,True
+2022-07-21,harun boerhan,12,Present,09:54 AM,05:02 PM,True
+2022-07-21,Lina Wirahadi,18,Present,05:03 PM,05:03 PM,True
+2022-07-21,Nurahdiatna Subagya,13,Present,09:52 AM,05:06 PM,True
+2022-07-21,Mark Kenny Williams,14,Present,10:18 AM,05:23 PM,True
+2022-07-21,Muh. Agung Fasrulhaq,15,Present,10:02 AM,05:03 PM,True
+2022-07-21,raisul amin,16,Present,09:55 AM,05:00 PM,True
+2022-07-20,Chris Ariwibowo,0,Present,09:24 AM,05:00 PM,True
+2022-07-20,Mirsan Mirsan,1,Present,09:11 AM,05:03 PM,True
+2022-07-20,Slamat Riadi,2,Present,09:12 AM,05:01 PM,True
+2022-07-20,Dwi Septia Ningsih,19,Present,09:08 AM,05:01 PM,True
+2022-07-20,Sumarno Sumarno,3,Present,09:12 AM,05:03 PM,True
+2022-07-20,Bayu Bayu,4,IN,09:08 AM,,True
+2022-07-20,Yuni Aryani,5,Present,09:31 AM,05:00 PM,True
+2022-07-20,Jumyati Jumyati,6,Present,10:04 AM,05:03 PM,True
+2022-07-20,Ineke Sri Lestari,7,Present,09:20 AM,05:00 PM,True
+2022-07-20,Cahyanto Cahyanto,8,Present,09:28 AM,05:04 PM,True
+2022-07-20,Fachrudin Ali,9,Present,09:29 AM,05:03 PM,True
+2022-07-20,Nuryanti Nuryanti,10,Present,08:45 AM,05:00 PM,True
+2022-07-20,harun boerhan,12,IN,09:36 AM,,True
+2022-07-20,Lina Wirahadi,18,Present,05:03 PM,05:03 PM,True
+2022-07-20,Nurahdiatna Subagya,13,Present,09:56 AM,05:00 PM,True
+2022-07-20,Mark Kenny Williams,14,Present,05:09 PM,05:09 PM,True
+2022-07-20,Muh. Agung Fasrulhaq,15,Present,09:55 AM,05:00 PM,True
+2022-07-20,raisul amin,16,Present,09:56 AM,05:00 PM,True
+2022-07-19,Chris Ariwibowo,0,Present,09:50 AM,05:00 PM,True
+2022-07-19,Mirsan Mirsan,1,Present,09:31 AM,05:02 PM,True
+2022-07-19,Slamat Riadi,2,Present,09:18 AM,05:03 PM,True
+2022-07-19,Dwi Septia Ningsih,19,Present,09:06 AM,05:04 PM,True
+2022-07-19,Sumarno Sumarno,3,Present,09:08 AM,05:03 PM,True
+2022-07-19,Bayu Bayu,4,Present,08:42 AM,05:03 PM,True
+2022-07-19,Yuni Aryani,5,Present,09:35 AM,05:00 PM,True
+2022-07-19,Jumyati Jumyati,6,Present,10:00 AM,05:00 PM,True
+2022-07-19,Ineke Sri Lestari,7,Present,09:16 AM,05:00 PM,True
+2022-07-19,Cahyanto Cahyanto,8,Present,09:54 AM,05:01 PM,True
+2022-07-19,Fachrudin Ali,9,Present,09:39 AM,05:06 PM,True
+2022-07-19,Nuryanti Nuryanti,10,Present,08:41 AM,05:00 PM,True
+2022-07-19,Setia Wayah Gutama,11,Present,11:04 AM,05:03 PM,True
+2022-07-19,harun boerhan,12,Present,09:44 AM,05:01 PM,True
+2022-07-19,Lina Wirahadi,18,Present,05:00 PM,05:03 PM,True
+2022-07-19,Mark Kenny Williams,14,IN,10:13 AM,,True
+2022-07-19,Muh. Agung Fasrulhaq,15,Present,09:56 AM,05:00 PM,True
+2022-07-19,raisul amin,16,Present,09:57 AM,05:00 PM,True
+2022-07-18,Chris Ariwibowo,0,Present,09:50 AM,05:06 PM,True
+2022-07-18,Mirsan Mirsan,1,Present,09:35 AM,05:03 PM,True
+2022-07-18,Slamat Riadi,2,Present,09:44 AM,05:00 PM,True
+2022-07-18,Dwi Septia Ningsih,19,Present,09:31 AM,05:01 PM,True
+2022-07-18,Sumarno Sumarno,3,Present,09:30 AM,05:02 PM,True
+2022-07-18,Bayu Bayu,4,Present,08:51 AM,05:01 PM,True
+2022-07-18,Roby Roby,20,IN,09:52 AM,,True
+2022-07-18,Yuni Aryani,5,Present,09:35 AM,05:00 PM,True
+2022-07-18,Ineke Sri Lestari,7,Present,09:40 AM,05:00 PM,True
+2022-07-18,Cahyanto Cahyanto,8,Present,09:51 AM,05:01 PM,True
+2022-07-18,Fachrudin Ali,9,Present,09:35 AM,05:07 PM,True
+2022-07-18,Nuryanti Nuryanti,10,Present,09:34 AM,05:01 PM,True
+2022-07-18,Melissa Christina Tuwoh,17,IN,10:05 AM,,True
+2022-07-18,Setia Wayah Gutama,11,Present,09:58 AM,05:02 PM,True
+2022-07-18,Arrent Ong,21,IN,10:09 AM,,True
+2022-07-18,harun boerhan,12,Present,09:45 AM,05:01 PM,True
+2022-07-18,Lina Wirahadi,18,Present,10:05 AM,05:01 PM,True
+2022-07-18,Nurahdiatna Subagya,13,Present,10:00 AM,05:01 PM,True
+2022-07-18,Mark Kenny Williams,14,Present,10:09 AM,05:08 PM,True
+2022-07-18,Muh. Agung Fasrulhaq,15,Present,09:58 AM,05:00 PM,True
+2022-07-18,raisul amin,16,Present,09:56 AM,05:01 PM,True
+2022-07-15,Chris Ariwibowo,0,Present,09:48 AM,05:38 PM,True
+2022-07-15,Mirsan Mirsan,1,Present,09:42 AM,05:03 PM,True
+2022-07-15,Slamat Riadi,2,Present,09:18 AM,05:00 PM,True
+2022-07-15,Dwi Septia Ningsih,19,Present,09:12 AM,05:01 PM,True
+2022-07-15,Sumarno Sumarno,3,Present,09:05 AM,05:02 PM,True
+2022-07-15,Bayu Bayu,4,Present,08:19 AM,05:00 PM,True
+2022-07-15,Yuni Aryani,5,IN,10:07 AM,10:07 AM,True
+2022-07-15,Ineke Sri Lestari,7,Present,09:10 AM,05:01 PM,True
+2022-07-15,Fachrudin Ali,9,Present,09:48 AM,05:52 PM,True
+2022-07-15,Setia Wayah Gutama,11,Present,10:02 AM,05:00 PM,True
+2022-07-15,harun boerhan,12,Present,08:19 AM,05:46 PM,True
+2022-07-15,Lina Wirahadi,18,Present,05:02 PM,05:03 PM,True
+2022-07-15,Nurahdiatna Subagya,13,Present,09:59 AM,05:00 PM,True
+2022-07-15,Mark Kenny Williams,14,IN,10:07 AM,,True
+2022-07-15,Muh. Agung Fasrulhaq,15,Present,09:56 AM,05:00 PM,True
+2022-07-15,raisul amin,16,Present,09:58 AM,05:00 PM,True
+2022-07-14,Chris Ariwibowo,0,Present,09:38 AM,05:00 PM,True
+2022-07-14,Mirsan Mirsan,1,Present,09:22 AM,05:03 PM,True
+2022-07-14,Slamat Riadi,2,Present,09:16 AM,05:00 PM,True
+2022-07-14,Dwi Septia Ningsih,19,Present,09:14 AM,05:02 PM,True
+2022-07-14,Sumarno Sumarno,3,Present,09:09 AM,05:03 PM,True
+2022-07-14,Bayu Bayu,4,Present,08:57 AM,05:02 PM,True
+2022-07-14,Yuni Aryani,5,Present,09:56 AM,05:00 PM,True
+2022-07-14,Jumyati Jumyati,6,Present,10:01 AM,05:03 PM,True
+2022-07-14,Ineke Sri Lestari,7,Present,09:13 AM,05:00 PM,True
+2022-07-14,Fachrudin Ali,9,Present,09:34 AM,05:03 PM,True
+2022-07-14,Nuryanti Nuryanti,10,Present,09:48 AM,05:00 PM,True
+2022-07-14,Setia Wayah Gutama,11,Present,09:58 AM,05:01 PM,True
+2022-07-14,harun boerhan,12,IN,09:45 AM,,True
+2022-07-14,Lina Wirahadi,18,Present,05:01 PM,05:01 PM,True
+2022-07-14,Mark Kenny Williams,14,Present,10:16 AM,05:33 PM,True
+2022-07-14,Muh. Agung Fasrulhaq,15,Present,10:02 AM,05:00 PM,True
+2022-07-14,raisul amin,16,Present,09:54 AM,05:00 PM,True
+2022-07-13,Chris Ariwibowo,0,Present,09:56 AM,05:01 PM,True
+2022-07-13,Mirsan Mirsan,1,Present,09:52 AM,05:05 PM,True
+2022-07-13,Slamat Riadi,2,Present,09:12 AM,05:00 PM,True
+2022-07-13,Dwi Septia Ningsih,19,Present,09:11 AM,05:01 PM,True
+2022-07-13,Sumarno Sumarno,3,Present,08:49 AM,05:07 PM,True
+2022-07-13,Bayu Bayu,4,Present,05:00 PM,05:00 PM,True
+2022-07-13,Yuni Aryani,5,Present,09:54 AM,05:00 PM,True
+2022-07-13,Jumyati Jumyati,6,Present,10:02 AM,05:03 PM,True
+2022-07-13,Ineke Sri Lestari,7,Present,09:18 AM,05:00 PM,True
+2022-07-13,Nuryanti Nuryanti,10,Present,09:46 AM,05:00 PM,True
+2022-07-13,Melissa Christina Tuwoh,17,Present,10:02 AM,05:03 PM,True
+2022-07-13,Setia Wayah Gutama,11,Present,10:02 AM,05:06 PM,True
+2022-07-13,harun boerhan,12,Present,08:15 AM,05:00 PM,True
+2022-07-13,Lina Wirahadi,18,Present,05:00 PM,05:00 PM,True
+2022-07-13,Mark Kenny Williams,14,Present,05:01 PM,05:02 PM,True
+2022-07-13,Muh. Agung Fasrulhaq,15,Present,10:05 AM,05:02 PM,True
+2022-07-12,Chris Ariwibowo,0,IN,09:57 AM,,True
+2022-07-12,Mirsan Mirsan,1,Present,09:17 AM,05:02 PM,True
+2022-07-12,Slamat Riadi,2,Present,09:39 AM,05:00 PM,True
+2022-07-12,Dwi Septia Ningsih,19,Present,09:38 AM,05:02 PM,True
+2022-07-12,Sumarno Sumarno,3,Present,09:13 AM,05:07 PM,True
+2022-07-12,Bayu Bayu,4,Present,08:22 AM,05:00 PM,True
+2022-07-12,Yuni Aryani,5,Present,08:57 AM,05:00 PM,True
+2022-07-12,Jumyati Jumyati,6,Present,09:55 AM,05:08 PM,True
+2022-07-12,Ineke Sri Lestari,7,Present,09:17 AM,05:00 PM,True
+2022-07-12,Fachrudin Ali,9,Present,09:23 AM,05:07 PM,True
+2022-07-12,Nuryanti Nuryanti,10,Present,09:42 AM,05:00 PM,True
+2022-07-12,Melissa Christina Tuwoh,17,IN,10:07 AM,,True
+2022-07-12,harun boerhan,12,Present,08:45 AM,05:01 PM,True
+2022-07-12,Lina Wirahadi,18,Present,05:00 PM,05:01 PM,True
+2022-07-12,Mark Kenny Williams,14,Present,10:09 AM,05:09 PM,True
+2022-07-12,Muh. Agung Fasrulhaq,15,Present,09:57 AM,05:00 PM,True
+2022-07-12,raisul amin,16,Present,09:53 AM,05:00 PM,True
+2022-07-11,Mirsan Mirsan,1,Present,05:02 PM,05:03 PM,True
+2022-07-11,Slamat Riadi,2,Present,09:06 AM,05:00 PM,True
+2022-07-11,Dwi Septia Ningsih,19,Present,09:05 AM,05:01 PM,True
+2022-07-11,Sumarno Sumarno,3,Present,09:08 AM,05:03 PM,True
+2022-07-11,Bayu Bayu,4,Present,09:41 AM,05:00 PM,True
+2022-07-11,Yuni Aryani,5,Present,09:37 AM,05:00 PM,True
+2022-07-11,Jumyati Jumyati,6,Present,09:58 AM,05:02 PM,True
+2022-07-11,Ineke Sri Lestari,7,Present,09:39 AM,04:58 PM,True
+2022-07-11,Cahyanto Cahyanto,8,Present,09:41 AM,05:03 PM,True
+2022-07-11,Fachrudin Ali,9,Present,09:30 AM,05:01 PM,True
+2022-07-11,Nuryanti Nuryanti,10,Present,08:45 AM,05:00 PM,True
+2022-07-11,Melissa Christina Tuwoh,17,Present,09:56 AM,05:04 PM,True
+2022-07-11,Setia Wayah Gutama,11,Present,10:02 AM,05:03 PM,True
+2022-07-11,harun boerhan,12,Present,09:30 AM,05:00 PM,True
+2022-07-11,Lina Wirahadi,18,Present,04:59 PM,05:00 PM,True
+2022-07-11,Nurahdiatna Subagya,13,IN,09:15 AM,,True
+2022-07-11,Mark Kenny Williams,14,IN,10:04 AM,,True
+2022-07-11,Muh. Agung Fasrulhaq,15,Present,09:54 AM,05:03 PM,True
+2022-07-11,raisul amin,16,Present,09:52 AM,05:01 PM,True
+2022-07-08,Chris Ariwibowo,0,Present,09:32 AM,05:00 PM,True
+2022-07-08,Mirsan Mirsan,1,Present,09:22 AM,05:04 PM,True
+2022-07-08,Slamat Riadi,2,Present,09:08 AM,05:00 PM,True
+2022-07-08,Dwi Septia Ningsih,19,Present,09:07 AM,05:02 PM,True
+2022-07-08,Sumarno Sumarno,3,IN,09:08 AM,,True
+2022-07-08,Bayu Bayu,4,Present,08:05 AM,05:00 PM,True
+2022-07-08,Yuni Aryani,5,Present,09:39 AM,05:00 PM,True
+2022-07-08,Jumyati Jumyati,6,Present,10:27 AM,05:01 PM,True
+2022-07-08,Ineke Sri Lestari,7,Present,08:15 AM,05:00 PM,True
+2022-07-08,Cahyanto Cahyanto,8,Present,09:34 AM,05:00 PM,True
+2022-07-08,Fachrudin Ali,9,Present,11:24 AM,05:01 PM,True
+2022-07-08,Nuryanti Nuryanti,10,Present,09:45 AM,05:00 PM,True
+2022-07-08,Setia Wayah Gutama,11,Present,09:57 AM,05:02 PM,True
+2022-07-08,harun boerhan,12,Present,08:35 AM,05:00 PM,True
+2022-07-08,Lina Wirahadi,18,Present,09:20 AM,05:01 PM,True
+2022-07-08,Nurahdiatna Subagya,13,Present,09:57 AM,05:00 PM,True
+2022-07-08,Muh. Agung Fasrulhaq,15,Present,10:08 AM,05:01 PM,True
+2022-07-08,raisul amin,16,Present,09:59 AM,05:00 PM,True
+2022-07-07,Chris Ariwibowo,0,Present,09:48 AM,05:00 PM,True
+2022-07-07,Mirsan Mirsan,1,Present,09:51 AM,05:02 PM,True
+2022-07-07,Dwi Septia Ningsih,19,Present,09:39 AM,05:02 PM,True
+2022-07-07,Sumarno Sumarno,3,Present,09:03 AM,05:01 PM,True
+2022-07-07,Bayu Bayu,4,Present,08:27 AM,05:00 PM,True
+2022-07-07,Yuni Aryani,5,Present,09:34 AM,05:00 PM,True
+2022-07-07,Jumyati Jumyati,6,Present,09:54 AM,05:05 PM,True
+2022-07-07,Ineke Sri Lestari,7,Present,09:11 AM,05:00 PM,True
+2022-07-07,Cahyanto Cahyanto,8,Present,09:39 AM,05:00 PM,True
+2022-07-07,Nuryanti Nuryanti,10,Present,09:55 AM,05:00 PM,True
+2022-07-07,Melissa Christina Tuwoh,17,Present,09:57 AM,05:05 PM,True
+2022-07-07,Setia Wayah Gutama,11,Present,09:56 AM,05:02 PM,True
+2022-07-07,Lina Wirahadi,18,Present,05:02 PM,05:02 PM,True
+2022-07-07,Nurahdiatna Subagya,13,IN,09:50 AM,,True
+2022-07-07,Muh. Agung Fasrulhaq,15,Present,10:04 AM,05:02 PM,True
+2022-07-07,raisul amin,16,Present,09:56 AM,05:01 PM,True
+2022-07-06,Chris Ariwibowo,0,Present,09:59 AM,05:00 PM,True
+2022-07-06,Mirsan Mirsan,1,Present,09:21 AM,05:12 PM,True
+2022-07-06,Slamat Riadi,2,Present,09:17 AM,05:03 PM,True
+2022-07-06,Dwi Septia Ningsih,19,Present,09:38 AM,05:11 PM,True
+2022-07-06,Sumarno Sumarno,3,Present,08:52 AM,05:51 PM,True
+2022-07-06,Bayu Bayu,4,Present,08:46 AM,05:00 PM,True
+2022-07-06,Yuni Aryani,5,Present,09:13 AM,05:00 PM,True
+2022-07-06,Jumyati Jumyati,6,Present,09:58 AM,05:03 PM,True
+2022-07-06,Ineke Sri Lestari,7,Present,08:41 AM,05:00 PM,True
+2022-07-06,Cahyanto Cahyanto,8,IN,09:30 AM,,True
+2022-07-06,Nuryanti Nuryanti,10,Present,09:50 AM,05:00 PM,True
+2022-07-06,Melissa Christina Tuwoh,17,Present,09:57 AM,05:37 PM,True
+2022-07-06,Setia Wayah Gutama,11,Present,09:54 AM,05:51 PM,True
+2022-07-06,harun boerhan,12,IN,10:02 AM,,True
+2022-07-06,Lina Wirahadi,18,Present,05:07 PM,05:08 PM,True
+2022-07-06,Nurahdiatna Subagya,13,IN,09:55 AM,,True
+2022-07-06,Muh. Agung Fasrulhaq,15,Present,09:48 AM,05:02 PM,True
+2022-07-06,raisul amin,16,IN,09:55 AM,,True
+2022-07-05,Chris Ariwibowo,0,Present,10:12 AM,05:05 PM,True
+2022-07-05,Mirsan Mirsan,1,Present,09:12 AM,05:04 PM,True
+2022-07-05,Slamat Riadi,2,Present,09:06 AM,05:02 PM,True
+2022-07-05,Dwi Septia Ningsih,19,Present,09:06 AM,05:04 PM,True
+2022-07-05,Sumarno Sumarno,3,Present,08:45 AM,05:02 PM,True
+2022-07-05,Bayu Bayu,4,Present,09:05 AM,05:02 PM,True
+2022-07-05,Yuni Aryani,5,Present,09:28 AM,05:02 PM,True
+2022-07-05,Jumyati Jumyati,6,Present,09:56 AM,05:00 PM,True
+2022-07-05,Ineke Sri Lestari,7,Present,09:11 AM,05:01 PM,True
+2022-07-05,Cahyanto Cahyanto,8,Present,09:31 AM,05:01 PM,True
+2022-07-05,Nuryanti Nuryanti,10,Present,09:46 AM,05:01 PM,True
+2022-07-05,Melissa Christina Tuwoh,17,Present,09:59 AM,05:07 PM,True
+2022-07-05,Setia Wayah Gutama,11,Present,10:00 AM,05:03 PM,True
+2022-07-05,harun boerhan,12,Present,09:49 AM,05:02 PM,True
+2022-07-05,Lina Wirahadi,18,Present,05:00 PM,05:00 PM,True
+2022-07-05,Muh. Agung Fasrulhaq,15,Present,09:51 AM,05:03 PM,True
+2022-07-05,raisul amin,16,Present,09:58 AM,05:01 PM,True
+2022-07-04,Chris Ariwibowo,0,Present,05:07 PM,05:07 PM,True
+2022-07-04,Mirsan Mirsan,1,Present,08:49 AM,05:01 PM,True
+2022-07-04,Slamat Riadi,2,Present,09:33 AM,05:00 PM,True
+2022-07-04,Dwi Septia Ningsih,19,Present,09:33 AM,05:01 PM,True
+2022-07-04,Sumarno Sumarno,3,Present,09:45 AM,05:01 PM,True
+2022-07-04,Bayu Bayu,4,Present,09:17 AM,05:01 PM,True
+2022-07-04,Yuni Aryani,5,Present,09:28 AM,05:00 PM,True
+2022-07-04,Jumyati Jumyati,6,Present,10:26 AM,05:01 PM,True
+2022-07-04,Ineke Sri Lestari,7,Present,09:15 AM,05:00 PM,True
+2022-07-04,Cahyanto Cahyanto,8,Present,09:28 AM,05:05 PM,True
+2022-07-04,Nuryanti Nuryanti,10,Present,09:46 AM,05:00 PM,True
+2022-07-04,Melissa Christina Tuwoh,17,Present,10:01 AM,05:06 PM,True
+2022-07-04,Setia Wayah Gutama,11,Present,09:55 AM,05:02 PM,True
+2022-07-04,Lina Wirahadi,18,Present,05:00 PM,05:00 PM,True
+2022-07-04,Nurahdiatna Subagya,13,Present,09:54 AM,05:01 PM,True
+2022-07-04,Muh. Agung Fasrulhaq,15,IN,09:53 AM,,True
+2022-07-04,raisul amin,16,Present,09:58 AM,05:03 PM,True
+2022-07-01,Chris Ariwibowo,0,Present,09:56 AM,05:00 PM,True
+2022-07-01,Mirsan Mirsan,1,Present,08:59 AM,05:03 PM,True
+2022-07-01,Slamat Riadi,2,Present,09:27 AM,05:01 PM,True
+2022-07-01,Dwi Septia Ningsih,19,Present,09:28 AM,05:03 PM,True
+2022-07-01,Sumarno Sumarno,3,Present,09:07 AM,05:03 PM,True
+2022-07-01,Bayu Bayu,4,Present,08:59 AM,05:03 PM,True
+2022-07-01,Roby Roby,20,Present,09:48 AM,05:02 PM,True
+2022-07-01,Yuni Aryani,5,Present,09:22 AM,05:02 PM,True
+2022-07-01,Jumyati Jumyati,6,Present,10:24 AM,05:09 PM,True
+2022-07-01,Ineke Sri Lestari,7,Present,08:12 AM,05:00 PM,True
+2022-07-01,Cahyanto Cahyanto,8,Present,09:46 AM,05:00 PM,True
+2022-07-01,Fachrudin Ali,9,Present,05:09 PM,05:09 PM,True
+2022-07-01,Nuryanti Nuryanti,10,Present,09:40 AM,05:01 PM,True
+2022-07-01,Melissa Christina Tuwoh,17,Present,10:02 AM,05:07 PM,True
+2022-07-01,Setia Wayah Gutama,11,Present,10:05 AM,05:03 PM,True
+2022-07-01,Lina Wirahadi,18,Present,10:01 AM,05:02 PM,True
+2022-07-01,Nurahdiatna Subagya,13,Present,09:56 AM,05:02 PM,True
+2022-07-01,Muh. Agung Fasrulhaq,15,Present,09:59 AM,05:05 PM,True
+2022-07-01,raisul amin,16,Present,09:53 AM,05:01 PM,True
