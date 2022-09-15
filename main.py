@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, session
 from werkzeug.utils import secure_filename
 import pandas as pd
 import numpy as np
@@ -9,6 +9,7 @@ import random
 import os
 
 app = Flask(__name__)
+app.secret_key = 'epsind0'
 twelvemonth = ['January','February','March','April','May']
 monthdict = { 'January' : 1 ,
                   'February' : 2,
@@ -30,6 +31,7 @@ connection = sqlconnector.connect(host=host,
                            database=database,
                            user=username,
                            password=password)
+randomized_filename = "None"
 
 @app.route('/')
 def index():
@@ -66,6 +68,8 @@ def monthly(month='January'):
                            database=database,
                            user=username,
                            password=password)
+    
+    session.pop('data', None)
     monthdict = { 'January' : 1 ,
                   'February' : 2,
                   'March' : 3,
@@ -103,6 +107,7 @@ def import_data(part = 'presensi', filename='None'):
                            database=database,
                            user=username,
                            password=password)
+
     if filename=='None' :
         page_info = {'page':'importdata', 'months':twelvemonth, 'part':part, 'filename':filename}
     else :
@@ -124,17 +129,20 @@ def import_data(part = 'presensi', filename='None'):
                 duplicate_data = True
             else :
                 duplicate_data = False
-            randomized_namefile = str(random.randint(100000,999999)) + ".csv"
-            df_presensi.to_csv(randomized_namefile, index=False)
+            # if randomized_filename == "None" :
+                # randomized_namefile = str(random.randint(100000,999999)) + ".csv"
+            # print(session["name"])
+
+            # df_presensi.to_csv(randomized_namefile, index=False)
             page_info = {'page':'importdata', 
                      'months':twelvemonth, 
                      'part':part, 
                      'filename':filename,
-                     'importing_filename': randomized_namefile,
                      'duplicated':duplicate_data, 
                      'data_presensi':df_presensi}
-            
-            
+            presensi_dict = df_presensi.to_dict('list')
+            session["data"] = presensi_dict
+
     return render_template('importdata.html', result=page_info)
 
 @app.route('/importpresensi', methods= ['GET','POST'])
@@ -146,15 +154,16 @@ def preimporter():
         f.save(secure_filename(f.filename))
         return redirect(url_for('import_data', part='presensi', filename=f.filename.replace(" ", "_")))
 
-@app.route('/importpresensi/insertdb/<dup_action>-<csvfile>')
-def importpresensidb(dup_action, csvfile) :
+@app.route('/importpresensi/insertdb/<dup_action>')
+def importpresensidb(dup_action) :
     connection = sqlconnector.connect(host=host,
                            database=database,
                            user=username,
                            password=password)
-    df_pres = pd.read_csv(csvfile)
+    pres_dict = session["data"]
+    df_pres = pd.DataFrame(pres_dict)
     firstrow = df_pres['Date'].iloc[0]
-    data.import_presensi(connection, df_pres, csvfile, dup_action=dup_action)
+    data.import_presensi(connection, df_pres, dup_action=dup_action)
 
     return redirect(url_for('monthly', month=list(monthdict.keys())[list(monthdict.values()).index(int(firstrow[5:7]))]))
 

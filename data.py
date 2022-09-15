@@ -357,7 +357,7 @@ def check_duplicate_data(df, source, subset_) :
     
     return arr_
 
-def import_presensi(conn, df, filename, dup_action='replace') :
+def import_presensi(conn, df, dup_action='replace') :
     if dup_action == 'replace' :
         cur = conn.cursor()
         cutted_df = df[df['duplicated']]
@@ -367,9 +367,9 @@ def import_presensi(conn, df, filename, dup_action='replace') :
         conn.commit()
         print(cur.rowcount, "rows executed.")
 
-        df = df.fillna(np.nan).replace([np.nan], [None])
         df['firstcheckin'] = pd.to_datetime(df['firstcheckin'], format='%I:%M %p').dt.strftime('%H:%M:%S')
         df['lastcheckout'] = pd.to_datetime(df['lastcheckout'], format='%I:%M %p').dt.strftime('%H:%M:%S')
+        df = df.fillna(np.nan).replace([np.nan], [None])
         df = df[['Date','participant_id','status','firstcheckin', 'lastcheckout']]
         
         sql = "INSERT INTO presensi_table (date, participant_id, status, firstcheckin, lastcheckout)  VALUES (%s, %s, %s, %s, %s)"
@@ -381,11 +381,13 @@ def import_presensi(conn, df, filename, dup_action='replace') :
         conn.commit()
         print(cur.rowcount, "rows executed.")
     else :
+        cur = conn.cursor()
         df = df[~df['duplicated']]
-        df = df.fillna(np.nan).replace([np.nan], [None])
         df['firstcheckin'] = pd.to_datetime(df['firstcheckin'], format='%I:%M %p').dt.strftime('%H:%M:%S')
         df['lastcheckout'] = pd.to_datetime(df['lastcheckout'], format='%I:%M %p').dt.strftime('%H:%M:%S')
-        df = df[['Date','participant_id','status','firstcheckin', 'lastcheckout']]
+        df = df[['Date','Participant_id','status','firstcheckin', 'lastcheckout']]
+        df = df.fillna(np.nan).replace([np.nan], [None])
+        print(df)
         
         sql = "INSERT INTO presensi_table (date, participant_id, status, firstcheckin, lastcheckout)  VALUES (%s, %s, %s, %s, %s)"
         values = []
