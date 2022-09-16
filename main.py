@@ -69,7 +69,7 @@ def monthly(month='January'):
                            user=username,
                            password=password)
     
-    session.pop('data', None)
+    
     monthdict = { 'January' : 1 ,
                   'February' : 2,
                   'March' : 3,
@@ -96,10 +96,67 @@ def monthly(month='January'):
             dict_rename[x] = weekdays[x.weekday()] +" "+ str(day_col)
             day_col += 1
     df_monthly_data.rename(columns = dict_rename, inplace=True)
+    
+    importpres = 'None'
+    if session.get('importpresensi_status') == True:
+        importpres = str(session['importpresensi_status']) + ' rows inserted.'
+        session.pop('importpresensi_status')
 
-
-    page_info = {'page':'monthly', 'month':month, 'data_monthly':df_monthly_data}
+    page_info = {'page':'monthly', 'month':month, 'data_monthly':df_monthly_data, 'row_imported':importpres}
     return render_template('monthly.html', result = page_info)
+
+@app.route('/statustable/<start_date>-<end_date>')
+def monthly(start_date, end_date):
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
+    
+    
+    monthdict = { 'January' : 1 ,
+                  'February' : 2,
+                  'March' : 3,
+                  'April' : 4,
+                  'May' : 5,
+                  'June' : 6,
+                  'July' : 7,
+                  'August' : 8,
+                  'September' : 9,
+                  'October' : 10,
+                  'November' : 11,
+                  'December' : 12}
+
+    df_presensi = data.load_presensi(connection, month=month)
+    df_participant = data.load_participants(connection)
+    df_leave = data.load_leave(connection)
+    df_monthly_data = data.load_monthly_table_data(df_participant, df_presensi, df_leave, month=monthdict[month])
+
+    weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    dict_rename = {}
+    day_col = 1
+    for x in df_monthly_data.columns :
+        if isinstance(x, datetime.date) :
+            dict_rename[x] = weekdays[x.weekday()] +" "+ str(day_col)
+            day_col += 1
+    df_monthly_data.rename(columns = dict_rename, inplace=True)
+    
+    importpres = 'None'
+    if session.get('importpresensi_status') == True:
+        importpres = str(session['importpresensi_status']) + ' rows inserted.'
+        session.pop('importpresensi_status')
+
+    page_info = {'page':'monthly', 'month':month, 'data_monthly':df_monthly_data, 'row_imported':importpres}
+    return render_template('monthly.html', result = page_info)
+
+@app.route('/tableinputdate/', methods=['GET', 'POST'])
+def table_input_date(start_date, end_date):
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
+    return 
+
+    
 
 @app.route('/importdata/<part>/preview=<filename>')
 def import_data(part = 'presensi', filename='None'):
@@ -163,7 +220,10 @@ def importpresensidb(dup_action) :
     pres_dict = session["data"]
     df_pres = pd.DataFrame(pres_dict)
     firstrow = df_pres['Date'].iloc[0]
-    data.import_presensi(connection, df_pres, dup_action=dup_action)
+    rowcount_imported = data.import_presensi(connection, df_pres, dup_action=dup_action)
+
+    session.pop('data', None)
+    session['importpresensi_status'] = rowcount_imported
 
     return redirect(url_for('monthly', month=list(monthdict.keys())[list(monthdict.values()).index(int(firstrow[5:7]))]))
 
@@ -173,7 +233,7 @@ def leimporter():
         f = request.files['file']
         print(f.filename)
         f.save(secure_filename(f.filename))
-        return 'file uploaded successfully'
+        return redirect(url_for('import_data', part='leave', filename=f.filename.replace(" ", "_")))
 
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', debug=True)
