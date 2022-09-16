@@ -92,6 +92,11 @@
                             </div>
                         </div>
                     </div>
+                    {% if result["row_imported"] != "None" %}
+                    <div class="card  shadow bg-info  col-lg-3 mb-2" style="height:50px;"> 
+                        <div class="card-body text-light" style="margin-top:-10px;"> {{ result["row_imported"] }} </div> 
+                    </div>
+                    {% endif %}
                     <div class="card shadow mb-4">
                     <table class="table table-bordered table-sm table-hover align-middle table-responsive" style="text-align:center;">
                         <thead>

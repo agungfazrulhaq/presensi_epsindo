@@ -380,6 +380,8 @@ def import_presensi(conn, df, dup_action='replace') :
             cur.execute(sql, values)
         conn.commit()
         print(cur.rowcount, "rows executed.")
+
+        return cur.rowcount
     else :
         cur = conn.cursor()
         df = df[~df['duplicated']]
@@ -397,3 +399,5 @@ def import_presensi(conn, df, dup_action='replace') :
             cur.execute(sql, values)
         conn.commit()
         print(cur.rowcount, "rows executed.")
+
+        return cur.rowcount
