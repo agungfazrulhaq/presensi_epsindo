@@ -224,8 +224,9 @@ def import_data(part = 'presensi', filename='None'):
         if filename=='None' :
             page_info = {'page':'importdata', 'months':twelvemonth, 'part':part, 'filename':filename}
         else :
-            df_part, df_dep, df_presensi = data.read_presensi_file(filename)
-            if len(df_presensi.columns) == 0:
+            df_participant = data.load_participants(connection)
+            df_leave = data.read_leave(filename, df_participant)
+            if len(df_leave.columns) == 0:
                 page_info = {'page':'importdata', 
                         'months':twelvemonth, 
                         'part':part, 
@@ -233,12 +234,14 @@ def import_data(part = 'presensi', filename='None'):
                         'data_presensi':'error'}
             
             else :
-                df_presensi['duplicated'] = data.check_duplicate_data(df_presensi, 
-                                                                    data.load_presensi(connection), 
-                                                                    subset_=['Date', 
-                                                                            'Participant_id', 
-                                                                            'status'])
-                if True in df_presensi['duplicated'].values :
+                df_leave['duplicated'] = data.check_duplicate_data_leave(df_leave, 
+                                                                    data.load_leave(connection), 
+                                                                    subset_=['participant_id',
+                                                                             'reason', 
+                                                                             'leave_from', 
+                                                                             'leave_to',
+                                                                             'status'])
+                if True in df_leave['duplicated'].values :
                     duplicate_data = True
                 else :
                     duplicate_data = False
@@ -252,9 +255,9 @@ def import_data(part = 'presensi', filename='None'):
                         'part':part, 
                         'filename':filename,
                         'duplicated':duplicate_data, 
-                        'data_presensi':df_presensi}
-                presensi_dict = df_presensi.to_dict('list')
-                session["data"] = presensi_dict
+                        'data_presensi':df_leave}
+                leave_dict = df_leave.to_dict('list')
+                session["data"] = leave_dict
 
     return render_template('importdata.html', result=page_info)
 

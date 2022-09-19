@@ -107,7 +107,7 @@ def load_leave(conn) :
     return result_df
 
 def get_leave_data(df_leave, participant_id) :
-    df_leave = df_leave[df_leave['']]
+    df_leave = df_leave[df_leave['status'] == 'Approved']
     leave_data = df_leave[df_leave['participant_id'] == participant_id]
     # print(leave_data)
     leave_list = []
@@ -465,6 +465,33 @@ def check_duplicate_data(df, source, subset_) :
     
     return arr_
 
+def check_duplicate_data_leave(df, source, subset_) :
+    df_ = df[subset_]
+    df_['leave_from'] = df_['leave_from'].astype(str)
+    df_['leave_to'] = df_['leave_to'].astype(str)
+    source_ = source[subset_]
+    source_['leave_from'] = source_['leave_from'].astype(str)
+    source_['leave_to'] = source_['leave_to'].astype(str)
+    print(df_.describe())
+    print(source_.dtypes)
+    print(len(source_)," ", len(df_))
+    arr_ = []
+    for ind,val in df_.iterrows() :
+        flag = False
+        for comp_val in source_.values :
+            inside_flag = True
+            for i in range(len(val.values)) :
+                if comp_val[i] != val.values[i] :
+                    inside_flag = False
+            if inside_flag :
+                flag = True
+                break
+        arr_.append(flag)
+    
+    # print(df_.duplicated(keep=False).values)
+    
+    return arr_
+
 def import_presensi(conn, df, dup_action='replace') :
     if dup_action == 'replace' :
         cur = conn.cursor()
@@ -510,4 +537,34 @@ def import_presensi(conn, df, dup_action='replace') :
 
         return cur.rowcount
 
-def read_leave(filename) :
+def check_xls_leave_file(columns):
+    arr_validation = ['ID', 'Name', 'Applied At', 'Leave', 'From', 'To', 'For', 'Session',
+       'Status', 'Emergency', 'Reason', 'Remark', 'Department', 'Branch',
+       'Attachment']
+
+    flag = True
+    for i in range(len(arr_validation)) :
+        if columns[i] != arr_validation[i] :
+            flag = False
+
+    return flag
+
+def read_leave(filename, df_participant) :
+    df = pd.read_excel(filename)
+
+    if check_xls_leave_file(df.columns) == False :
+        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+    # print(df.columns)
+    participant_id = []
+    for ind,val in df.iterrows() :
+        participant_id.append(df_participant[df_participant['name'] == val['Name']]['id'].values[0])
+    # leave_id = [i for i in range(len(df_leave))]
+
+    df_leave_tb = pd.DataFrame({'participant_id':participant_id, 
+                                'leave_kind':df['Leave'].values,
+                                'reason':df['Reason'].values,
+                                'leave_from':df['From'].values,
+                                'leave_to':df['To'].values,
+                                'status':df['Status'].values})
+
+    return df_leave_tb
