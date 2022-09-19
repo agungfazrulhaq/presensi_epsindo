@@ -26,22 +26,25 @@
                             <a class="dropdown-item" href="#">2019</a>
                         </div>
                     </div> -->
+                    <form action="/tableinputdate" method="post">
                     <div class="row mb-4 ml-1">
-                        <input id="datepicker" width="276" placeholder="Start"/>
+                        <input id="datepicker" name="startdate" width="276" placeholder="Start"/>
                             <script>
                                 $('#datepicker').datepicker({
                                     uiLibrary: 'bootstrap4'
                                 });
                             </script>
                             &nbsp;&nbsp;
-                        <input id="datepickerend" width="276" placeholder="End"/>
+                        <input id="datepickerend" name="enddate" width="276" placeholder="End"/>
                             <script>
                                 $('#datepickerend').datepicker({
                                     uiLibrary: 'bootstrap4'
                                 });
                             </script>
                         <input type="submit"  class="btn btn-sm btn-primary ml-1 text-light" value="Go">
+                        
                     </div>
+                    </form>
                     <div class="row">
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-75 py-1">
@@ -98,7 +101,7 @@
                     </div>
                     {% endif %}
                     <div class="card shadow mb-4">
-                    <table class="table table-bordered table-sm table-hover align-middle table-responsive" style="text-align:center;">
+                    <table class="table table-bordered table-sm table-hover align-middle table-responsive" style="text-align:center;font-size:10px;">
                         <thead>
                             <tr>
                                 {% for column in result['data_monthly'].columns %}

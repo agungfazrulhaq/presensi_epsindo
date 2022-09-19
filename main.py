@@ -105,8 +105,12 @@ def monthly(month='January'):
     page_info = {'page':'monthly', 'month':month, 'data_monthly':df_monthly_data, 'row_imported':importpres}
     return render_template('monthly.html', result = page_info)
 
-@app.route('/statustable/<start_date>-<end_date>')
-def monthly(start_date, end_date):
+@app.route('/statustable/<start_date>_<end_date>')
+def statustable(start_date, end_date):
+    stdate = start_date.split('-')
+    eddate = end_date.split('-')
+    start_date = stdate[2]+"-"+stdate[0]+"-"+stdate[1]
+    end_date = eddate[2]+"-"+eddate[0]+"-"+eddate[1]
     connection = sqlconnector.connect(host=host,
                            database=database,
                            user=username,
@@ -126,17 +130,19 @@ def monthly(start_date, end_date):
                   'November' : 11,
                   'December' : 12}
 
-    df_presensi = data.load_presensi(connection, month=month)
+    df_presensi = data.load_presensi_from_date(connection, start_date, end_date)
     df_participant = data.load_participants(connection)
     df_leave = data.load_leave(connection)
-    df_monthly_data = data.load_monthly_table_data(df_participant, df_presensi, df_leave, month=monthdict[month])
+    print(start_date)
+    print(end_date)
+    df_monthly_data = data.load_presensi_table_data(df_participant, df_presensi, df_leave, start_date, end_date)
 
     weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     dict_rename = {}
     day_col = 1
     for x in df_monthly_data.columns :
         if isinstance(x, datetime.date) :
-            dict_rename[x] = weekdays[x.weekday()] +" "+ str(day_col)
+            dict_rename[x] = weekdays[x.weekday()] +" "+ str(x.day)
             day_col += 1
     df_monthly_data.rename(columns = dict_rename, inplace=True)
     
@@ -145,16 +151,29 @@ def monthly(start_date, end_date):
         importpres = str(session['importpresensi_status']) + ' rows inserted.'
         session.pop('importpresensi_status')
 
-    page_info = {'page':'monthly', 'month':month, 'data_monthly':df_monthly_data, 'row_imported':importpres}
+    page_info = {'page':'monthly', 'month':'None', 'data_monthly':df_monthly_data, 'row_imported':importpres}
     return render_template('monthly.html', result = page_info)
 
 @app.route('/tableinputdate/', methods=['GET', 'POST'])
-def table_input_date(start_date, end_date):
+def table_input_date():
+    year = 2022
     connection = sqlconnector.connect(host=host,
                            database=database,
                            user=username,
                            password=password)
-    return 
+    
+    month = 11
+
+    if request.method == 'POST' :
+        start_date = '-'.join(request.form['startdate'].split('/'))
+        end_date = '-'.join(request.form['enddate'].split('/'))
+    
+    else :
+        start_date = datetime.date(year, month, 1)
+        end_date = datetime.date(year, month, calendar.monthrange(year, month)[1])
+
+
+    return redirect(url_for('statustable', start_date=start_date, end_date=end_date))
 
     
 
@@ -164,47 +183,84 @@ def import_data(part = 'presensi', filename='None'):
                            database=database,
                            user=username,
                            password=password)
+    
 
-    if filename=='None' :
-        page_info = {'page':'importdata', 'months':twelvemonth, 'part':part, 'filename':filename}
-    else :
-        df_part, df_dep, df_presensi = data.read_presensi_file(filename)
-        if len(df_presensi.columns) == 0:
-            page_info = {'page':'importdata', 
-                     'months':twelvemonth, 
-                     'part':part, 
-                     'filename':'error', 
-                     'data_presensi':'error'}
-        
+    if part == 'presensi' :
+        if filename=='None' :
+            page_info = {'page':'importdata', 'months':twelvemonth, 'part':part, 'filename':filename}
         else :
-            df_presensi['duplicated'] = data.check_duplicate_data(df_presensi, 
-                                                                data.load_presensi(connection), 
-                                                                subset_=['Date', 
-                                                                         'Participant_id', 
-                                                                         'status'])
-            if True in df_presensi['duplicated'].values :
-                duplicate_data = True
+            df_part, df_dep, df_presensi = data.read_presensi_file(filename)
+            if len(df_presensi.columns) == 0:
+                page_info = {'page':'importdata', 
+                        'months':twelvemonth, 
+                        'part':part, 
+                        'filename':'error', 
+                        'data_presensi':'error'}
+            
             else :
-                duplicate_data = False
-            # if randomized_filename == "None" :
-                # randomized_namefile = str(random.randint(100000,999999)) + ".csv"
-            # print(session["name"])
+                df_presensi['duplicated'] = data.check_duplicate_data(df_presensi, 
+                                                                    data.load_presensi(connection), 
+                                                                    subset_=['Date', 
+                                                                            'Participant_id', 
+                                                                            'status'])
+                if True in df_presensi['duplicated'].values :
+                    duplicate_data = True
+                else :
+                    duplicate_data = False
+                # if randomized_filename == "None" :
+                    # randomized_namefile = str(random.randint(100000,999999)) + ".csv"
+                # print(session["name"])
 
-            # df_presensi.to_csv(randomized_namefile, index=False)
-            page_info = {'page':'importdata', 
-                     'months':twelvemonth, 
-                     'part':part, 
-                     'filename':filename,
-                     'duplicated':duplicate_data, 
-                     'data_presensi':df_presensi}
-            presensi_dict = df_presensi.to_dict('list')
-            session["data"] = presensi_dict
+                # df_presensi.to_csv(randomized_namefile, index=False)
+                page_info = {'page':'importdata', 
+                        'months':twelvemonth, 
+                        'part':part, 
+                        'filename':filename,
+                        'duplicated':duplicate_data, 
+                        'data_presensi':df_presensi}
+                presensi_dict = df_presensi.to_dict('list')
+                session["data"] = presensi_dict
+    else :
+        if filename=='None' :
+            page_info = {'page':'importdata', 'months':twelvemonth, 'part':part, 'filename':filename}
+        else :
+            df_part, df_dep, df_presensi = data.read_presensi_file(filename)
+            if len(df_presensi.columns) == 0:
+                page_info = {'page':'importdata', 
+                        'months':twelvemonth, 
+                        'part':part, 
+                        'filename':'error', 
+                        'data_presensi':'error'}
+            
+            else :
+                df_presensi['duplicated'] = data.check_duplicate_data(df_presensi, 
+                                                                    data.load_presensi(connection), 
+                                                                    subset_=['Date', 
+                                                                            'Participant_id', 
+                                                                            'status'])
+                if True in df_presensi['duplicated'].values :
+                    duplicate_data = True
+                else :
+                    duplicate_data = False
+                # if randomized_filename == "None" :
+                    # randomized_namefile = str(random.randint(100000,999999)) + ".csv"
+                # print(session["name"])
+
+                # df_presensi.to_csv(randomized_namefile, index=False)
+                page_info = {'page':'importdata', 
+                        'months':twelvemonth, 
+                        'part':part, 
+                        'filename':filename,
+                        'duplicated':duplicate_data, 
+                        'data_presensi':df_presensi}
+                presensi_dict = df_presensi.to_dict('list')
+                session["data"] = presensi_dict
 
     return render_template('importdata.html', result=page_info)
 
 @app.route('/importpresensi', methods= ['GET','POST'])
 def preimporter():
-    page_info = {'page':'presensi', 'months':twelvemonth}
+    # page_info = {'page':'presensi', 'months':twelvemonth}
     if request.method == 'POST':
         f = request.files['file']
         print(f.filename)

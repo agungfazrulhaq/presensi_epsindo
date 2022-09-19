@@ -1,8 +1,10 @@
 from math import floor
 from datetime import date
+from datetime import timedelta
 import pandas as pd
 import numpy as np
 import datetime, calendar
+from dateutil.parser import parse
 
 def test():
     return "Imported DATA Module."
@@ -52,6 +54,32 @@ def load_presensi(conn, month='all', year=date.today().year):
     df_presensi['total_late'] = df_presensi['firstcheckin'].apply(lambda x: total_late(x))
     return df_presensi
 
+def load_presensi_from_date(conn, start_date, end_date):
+    cursor = conn.cursor()
+    monthdict = { 'January' : 1 ,
+                  'February' : 2,
+                  'March' : 3,
+                  'April' : 4,
+                  'May' : 5,
+                  'June' : 6,
+                  'July' : 7,
+                  'August' : 8,
+                  'September' : 9,
+                  'October' : 10,
+                  'November' : 11,
+                  'December' : 12}
+    
+    query = "SELECT * FROM presensi_table WHERE date BETWEEN '" + start_date +"' AND '" + end_date +"'"
+    cursor.execute(query)
+
+    result = cursor.fetchall()
+    df_presensi = pd.DataFrame(data=result, columns=['id','Date', 'Participant_id','status','firstcheckin', 'lastcheckout'])
+    df_presensi['firstcheckinstr'] = df_presensi['firstcheckin'].apply(lambda x : format_timedelta(x))
+    df_presensi['lastcheckoutstr'] = df_presensi['lastcheckout'].apply(lambda x : format_timedelta(x))
+    df_presensi['total_late'] = df_presensi['firstcheckin'].apply(lambda x: total_late(x))
+    return df_presensi
+
+
 def load_participants(conn, department=-1):
     cursor = conn.cursor()
 
@@ -74,11 +102,12 @@ def load_leave(conn) :
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM leave_table")
     result = cursor.fetchall()
-    result_columns = ['id_leave', 'participant_id', 'leave_kind', 'reason', 'leave_from', 'leave_to']
+    result_columns = ['id_leave', 'participant_id', 'leave_kind', 'reason', 'leave_from', 'leave_to', 'status']
     result_df = pd.DataFrame(data=result , columns = result_columns)
     return result_df
 
 def get_leave_data(df_leave, participant_id) :
+    df_leave = df_leave[df_leave['']]
     leave_data = df_leave[df_leave['participant_id'] == participant_id]
     # print(leave_data)
     leave_list = []
@@ -95,8 +124,87 @@ def get_leave_data(df_leave, participant_id) :
     return leave_list
 
 def load_monthly_table_data(df_participant, df_presensi, df_leave, month=1, year=2022) :
+
     days = [datetime.date(year, month, d+1) for d in range(calendar.monthrange(year,month)[1])]
     weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+    # df_presensi['datetimedate'] = df_presensi["Date"].apply(lambda x : datetime.datetime.strptime(x, "%Y-%m-%d").date())
+    dict_absen = {'Name':[]}
+
+    dates = 0
+    for day in days :
+        wkday = weekdays[day.weekday()]
+        dict_absen[day] = []
+        dates += 1
+    dict_absen['presensi_total'] = []
+    dict_absen['absensi_total'] = []
+    dict_absen['cuti_total'] = []
+    dict_absen['total_late'] = []
+    if len(df_presensi['Date'].values) > 0 :
+        mindate = min(df_presensi['Date'].values)
+        maxdate = max(df_presensi['Date'].values)
+    print(df_presensi)
+    # dict_absen
+    for ind,val in df_participant.iterrows() :
+        dict_absen['Name'].append(val['name'])
+        presentlist = df_presensi[df_presensi["Participant_id"] == val["id"]]
+        daysindata = presentlist['Date'].values
+        leave_data = get_leave_data(df_leave, val["id"])
+        total_minutes = 0
+        for x in presentlist['total_late'].values :
+            total_minutes += x
+        # total_late_seconds = 0
+        # for ind, val in presentlist.iterrows():
+        #     if np.isnat(val['firstcheckin']) == False :
+        #         if val['firstcheckin'].total_seconds() > 36000 :
+        #             total_late_seconds = val['firstcheckin'].total_seconds() - 36000
+
+        presentotal = 0
+        absentotal = 0
+        for day in days:
+            if day.weekday() == 5 or day.weekday() == 6 :
+                dict_absen[day].append('L')
+
+            elif len(df_presensi['Date'].values) == 0 :
+                dict_absen[day].append('N')
+
+            elif day < mindate or day > maxdate :
+                dict_absen[day].append('N')
+
+            elif day in leave_data :
+                dict_absen[day].append('C')
+
+            elif day in daysindata :
+                dict_absen[day].append('P')
+                presentotal += 1
+
+            else :
+                dict_absen[day].append('A')
+                absentotal += 1
+
+        dict_absen['presensi_total'].append(presentotal)
+        dict_absen['absensi_total'].append(absentotal)
+        dict_absen['cuti_total'].append(0)
+        dict_absen['total_late'].append(total_minutes)
+
+    return pd.DataFrame(dict_absen)
+
+def load_presensi_table_data(df_participant, df_presensi, df_leave, start_date, end_date) :
+    sdate = parse(start_date)
+    edate = parse(end_date)
+    # sdate.tz_localize(None)
+    # edate.tz_localize(None)
+
+    list_date = pd.date_range(start_date,end_date,freq='d')
+
+    days = []
+    for x in list_date :
+        days.append(x.date())
+    days
+
+    # days = []
+    weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    print(days)
 
     # df_presensi['datetimedate'] = df_presensi["Date"].apply(lambda x : datetime.datetime.strptime(x, "%Y-%m-%d").date())
     dict_absen = {'Name':[]}
@@ -401,3 +509,5 @@ def import_presensi(conn, df, dup_action='replace') :
         print(cur.rowcount, "rows executed.")
 
         return cur.rowcount
+
+def read_leave(filename) :
