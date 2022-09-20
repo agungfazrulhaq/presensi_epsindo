@@ -189,7 +189,7 @@ def import_data(part = 'presensi', filename='None'):
         if filename=='None' :
             page_info = {'page':'importdata', 'months':twelvemonth, 'part':part, 'filename':filename}
         else :
-            df_part, df_dep, df_presensi = data.read_presensi_file(filename)
+            df_part, df_dep, df_presensi = data.read_presensi_file(connection,filename)
             if len(df_presensi.columns) == 0:
                 page_info = {'page':'importdata', 
                         'months':twelvemonth, 

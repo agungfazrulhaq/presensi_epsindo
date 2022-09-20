@@ -186,6 +186,14 @@ def load_monthly_table_data(df_participant, df_presensi, df_leave, month=1, year
         dict_absen['absensi_total'].append(absentotal)
         dict_absen['cuti_total'].append(0)
         dict_absen['total_late'].append(total_minutes)
+    dict_absen['Total Kehadiran'] = dict_absen['presensi_total']
+    del dict_absen['presensi_total']
+    dict_absen['Total Absent'] = dict_absen['absensi_total']
+    del dict_absen['absensi_total']
+    dict_absen['Total Cuti'] = dict_absen['cuti_total']
+    del dict_absen['cuti_total']
+    dict_absen['Total Telat(Menit)'] = dict_absen['total_late']
+    del dict_absen['total_late']
 
     return pd.DataFrame(dict_absen)
 
@@ -264,6 +272,15 @@ def load_presensi_table_data(df_participant, df_presensi, df_leave, start_date, 
         dict_absen['absensi_total'].append(absentotal)
         dict_absen['cuti_total'].append(0)
         dict_absen['total_late'].append(total_minutes)
+        
+    dict_absen['Total Kehadiran'] = dict_absen['presensi_total']
+    del dict_absen['presensi_total']
+    dict_absen['Total Absent'] = dict_absen['absensi_total']
+    del dict_absen['absensi_total']
+    dict_absen['Total Cuti'] = dict_absen['cuti_total']
+    del dict_absen['cuti_total']
+    dict_absen['Total Telat(Menit)'] = dict_absen['total_late']
+    del dict_absen['total_late']
 
     return pd.DataFrame(dict_absen)
 
@@ -396,7 +413,7 @@ def check_xls_file(columns) :
 
     return flag
 
-def read_presensi_file(filename) :
+def read_presensi_file(conn, filename) :
     df = pd.read_excel(filename)
 
     df.columns = df.iloc[6].values
@@ -429,10 +446,11 @@ def read_presensi_file(filename) :
 
     dict_participant = {'id_p':id_participant, 'Name':participant_name, 'dep_id':id_department, 'email':email}
     df_participant = pd.DataFrame(dict_participant)
+    df_participant = load_participants(conn)
 
     partid_df = []
     for ind, val in df.iterrows():
-        partid_df.append(df_participant[df_participant['Name'] == val['Name']]['id_p'].values[0])
+        partid_df.append(df_participant[df_participant['name'] == val['Name']]['id'].values[0])
 
     df['Participant_id'] = partid_df
     df_presensi = df[['Date','Name', 'Participant_id', 'Status', 'First Check In', 'Last Check Out']]
@@ -505,7 +523,7 @@ def import_presensi(conn, df, dup_action='replace') :
         df['firstcheckin'] = pd.to_datetime(df['firstcheckin'], format='%I:%M %p').dt.strftime('%H:%M:%S')
         df['lastcheckout'] = pd.to_datetime(df['lastcheckout'], format='%I:%M %p').dt.strftime('%H:%M:%S')
         df = df.fillna(np.nan).replace([np.nan], [None])
-        df = df[['Date','participant_id','status','firstcheckin', 'lastcheckout']]
+        df = df[['Date','Participant_id','status','firstcheckin', 'lastcheckout']]
         
         sql = "INSERT INTO presensi_table (date, participant_id, status, firstcheckin, lastcheckout)  VALUES (%s, %s, %s, %s, %s)"
         values = []
