@@ -586,3 +586,40 @@ def read_leave(filename, df_participant) :
                                 'status':df['Status'].values})
 
     return df_leave_tb
+
+def import_leave(conn, df, dup_action='replace') :
+    cur = conn.cursor()
+    if dup_action == 'replace' :
+        cur = conn.cursor()
+        cutted_df = df[df['duplicated']]
+        for ind,val in cutted_df.iterrows():
+            query = 'DELETE FROM leave_table WHERE participant_id="' + str(val['participant_id']) + '" AND reason=' + str(val['reason']) + ' AND leave_from=' + str(val['leave_from']) + ' AND leave_to=' + str(val['leave_to']) + ' AND status="' + str(val['status'])+'"'
+            cur.execute(query)
+        conn.commit()
+        print(cur.rowcount, " rows executed.")
+
+        df = df[['participant_id','leave_kind','reason','leave_from', 'leave_to','status']]
+        leave_values = []
+        for ind, val in df.iterrows():
+            leave_values.append(tuple(val.values))
+        
+        sql = "INSERT INTO leave_table (participant_id, leave_kind, reason, leave_from, leave_to, status)  VALUES (%s, %s, %s, %s, %s, %s)"
+        cur.executemany(sql, leave_values)
+        conn.commit()
+        print(cur.rowcount, "rows executed.")
+
+        return cur.rowcount
+    else :
+        cur = conn.cursor()
+        df = df[~df['duplicated']]
+        df = df[['participant_id','leave_kind','reason','leave_from', 'leave_to','status']]
+        leave_values = []
+        for ind, val in df.iterrows():
+            leave_values.append(tuple(val.values))
+        
+        sql = "INSERT INTO leave_table (participant_id, leave_kind, reason, leave_from, leave_to, status)  VALUES (%s, %s, %s, %s, %s, %s)"
+        cur.executemany(sql, leave_values)
+        conn.commit()
+        print(cur.rowcount, "rows executed.")
+
+        return cur.rowcount

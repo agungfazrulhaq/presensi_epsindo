@@ -286,6 +286,23 @@ def importpresensidb(dup_action) :
 
     return redirect(url_for('monthly', month=list(monthdict.keys())[list(monthdict.values()).index(int(firstrow[5:7]))]))
 
+@app.route('/importleave/insertdb/<dup_action>')
+def importpresensidb(dup_action) :
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
+    leave_dict = session["data"]
+    df_leave = pd.DataFrame(leave_dict)
+    firstrow = df_leave['leave_from'].iloc[0]
+    rowcount_imported = data.import_leave(connection, df_leave, dup_action=dup_action)
+
+    session.pop('data', None)
+    session['importpresensi_status'] = rowcount_imported
+
+    return redirect(url_for('monthly', month=list(monthdict.keys())[list(monthdict.values()).index(int(firstrow[5:7]))]))
+
+
 @app.route('/importleave', methods=['GET', 'POST'])
 def leimporter():
     if request.method == 'POST':
