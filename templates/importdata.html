@@ -66,12 +66,19 @@
                     {% else %}
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-
+                        {% if result['part']=='presensi' %}
                             <h6 class="m-0 font-weight-bold text-primary float-left">Preview</h6>
                             <a class="btn btn-success btn-sm float-right text-light" href="/importpresensi/insertdb/replace">Import</a>
                             {% if result['duplicated'] %}
                             <a class="btn btn-info btn-sm float-right mr-2 text-light" href="/importpresensi/insertdb/ignore">Import (Ignore Duplicate)</a>
                             {% endif %}
+                        {% else %}
+                            <h6 class="m-0 font-weight-bold text-primary float-left">Preview</h6>
+                            <a class="btn btn-success btn-sm float-right text-light" href="/importleave/insertdb/replace">Import</a>
+                            {% if result['duplicated'] %}
+                            <a class="btn btn-info btn-sm float-right mr-2 text-light" href="/importleave/insertdb/ignore">Import (Ignore Duplicate)</a>
+                            {% endif %}
+                        {% endif %}
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered">

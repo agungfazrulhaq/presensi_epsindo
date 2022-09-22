@@ -287,7 +287,7 @@ def importpresensidb(dup_action) :
     return redirect(url_for('monthly', month=list(monthdict.keys())[list(monthdict.values()).index(int(firstrow[5:7]))]))
 
 @app.route('/importleave/insertdb/<dup_action>')
-def importpresensidb(dup_action) :
+def importleavedb(dup_action) :
     connection = sqlconnector.connect(host=host,
                            database=database,
                            user=username,
