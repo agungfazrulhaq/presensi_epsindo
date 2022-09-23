@@ -18,15 +18,15 @@
 
                     <div class="row">
                     <div class="dropdown mb-4">
-                        <button class="btn btn-primary dropdown-toggle" type="button"
+                        <button class="btn dropdown-toggle text-light" type="button"
                             id="dropdownparticipant" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
+                            aria-expanded="false" style="background-color:#137a7f;">
                             {{ result['data_current_user'][1] }}
                         </button>
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownparticipant">
                             {% for ind,val in result['data_participant'].iterrows() %}
-                            <a class="dropdown-item" href="/dashboard/{{ val['id'] }}">{{ val['name'] }}</a>
+                            <a class="dropdown-item" href="/dashboard/{{ val['id'] }}/{{ result['year'] }}">{{ val['name'] }}</a>
                             <!-- <a class="dropdown-item" href="#">Raisul Amin Zulfikri</a> -->
                             <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                             {% endfor %}
@@ -34,15 +34,16 @@
                     </div>
 
                     <div class="dropdown mb-4" style="margin-left:25px;">
-                        <button class="btn btn-primary dropdown-toggle" type="button"
+                        <button class="btn text-light dropdown-toggle" type="button"
                             id="dropdownyears" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
+                            aria-expanded="false"  style="background-color:#86cecb;">
                             2022
                         </button>
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownyears">
-                            <a class="dropdown-item" href="#">2021</a>
-                            <a class="dropdown-item" href="#">2019</a>
+                            {% for i in range(result['now_year']-10, result['now_year']) %}
+                            <a class="dropdown-item" href="#">{{ i+1 }}</a>
+                            {% endfor %}
                             <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                         </div>
                     </div>
@@ -62,7 +63,7 @@
                                         class="float-right"></span></h4>
                                 <div class="progress" style="margin-top:-5px; margin-bottom:8px;">
                                     <div class="progress-bar bg-primary" role="progressbar" style="width: {{ data_monthly['present_pct'] }}%"
-                                        aria-label="presentseg" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                                        aria-label="presentseg" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="background-color:#137a7f !important;">
                                         {{ data_monthly['total_present'] }} 
                                     </div>
                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ data_monthly['absent_pct'] }}%"

@@ -35,10 +35,11 @@ randomized_filename = "None"
 
 @app.route('/')
 def index():
-    return redirect(url_for('dashboard', user=0))
+    return redirect(url_for('dashboard', user=0, year=2022))
 
-@app.route('/dashboard/<user>')
-def dashboard(user = 0):
+@app.route('/dashboard/<user>/<year>')
+def dashboard(user = 0, year=2022):
+    year=int(year)
     connection = sqlconnector.connect(host=host,
                            database=database,
                            user=username,
@@ -48,13 +49,16 @@ def dashboard(user = 0):
     print("Current user id : ", user)
     df_presensi = data.load_presensi(connection)
     df_leave = data.load_leave(connection)
-    df_yearly = data.load_yearly(df_presensi,df_leave, participant_id=int(user))
+    df_yearly = data.load_yearly(df_presensi,df_leave, participant_id=int(user), year=year)
 
     curr_user = df_participant[df_participant['id'] == int(user)].values[0]
     df_participant = df_participant[df_participant['id'] != int(user)]
     df_participant = df_participant.sort_values('name', ascending=True)
+    now = datetime.datetime.utcnow()
 
-    page_info = {'page':'index', 
+    page_info = {'page':'index',
+                 'year' : year,
+                 'now_year' : now.year, 
                  'months':list(monthdict.keys()), 
                  'data_yearly':df_yearly, 
                  'data_participant':df_participant, 

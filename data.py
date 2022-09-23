@@ -175,7 +175,10 @@ def load_monthly_table_data(df_participant, df_presensi, df_leave, month=1, year
                 dict_absen[day].append('C')
 
             elif day in daysindata :
-                dict_absen[day].append('P')
+                if pd.Timedelta(presentlist[presentlist["Date"] == day]["firstcheckin"].values[0]).total_seconds()/3600 >= 10 :
+                    dict_absen[day].append('T')
+                else :
+                    dict_absen[day].append('P')
                 presentotal += 1
 
             else :
@@ -261,7 +264,11 @@ def load_presensi_table_data(df_participant, df_presensi, df_leave, start_date, 
                 dict_absen[day].append('C')
 
             elif day in daysindata :
-                dict_absen[day].append('P')
+                # print(presentlist[presentlist["Date"] == day]["firstcheckin"].values[0].total_seconds()/3600)
+                if pd.Timedelta(presentlist[presentlist["Date"] == day]["firstcheckin"].values[0]).total_seconds()/3600 >= 10 :
+                    dict_absen[day].append('T')
+                else :
+                    dict_absen[day].append('P')
                 presentotal += 1
 
             else :
@@ -593,7 +600,7 @@ def import_leave(conn, df, dup_action='replace') :
         cur = conn.cursor()
         cutted_df = df[df['duplicated']]
         for ind,val in cutted_df.iterrows():
-            query = 'DELETE FROM leave_table WHERE participant_id="' + str(val['participant_id']) + '" AND reason=' + str(val['reason']) + ' AND leave_from=' + str(val['leave_from']) + ' AND leave_to=' + str(val['leave_to']) + ' AND status="' + str(val['status'])+'"'
+            query = 'DELETE FROM leave_table WHERE participant_id=' + str(val['participant_id']) + ' AND reason="' + str(val['reason']) + '" AND leave_from="' + str(val['leave_from']) + '" AND leave_to="' + str(val['leave_to']) + '" AND status="' + str(val['status'])+'"'
             cur.execute(query)
         conn.commit()
         print(cur.rowcount, " rows executed.")

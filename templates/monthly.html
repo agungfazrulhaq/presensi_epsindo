@@ -41,19 +41,19 @@
                                     uiLibrary: 'bootstrap4'
                                 });
                             </script>
-                        <input type="submit"  class="btn btn-sm btn-primary ml-1 text-light" value="Go">
+                        <input type="submit"  class="btn btn-sm ml-1 text-light" value="Go" style="background-color:#137a7f;">
                         
                     </div>
                     </form>
                     <div class="row">
-                        <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-75 py-1">
+                        <div class="col-lg-2 col-md-6 mb-4">
+                            <div class="card shadow h-75 py-1">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <table class="table table-bordered table-sm" style="text-align:center;">
                                                 <tr>
-                                                    <td class="bg-primary text-light">P</td>
+                                                    <td class="text-light" style="background-color: #137a7f;">P</td>
                                                     <td>Present</td>
                                                 </tr>
                                             </table>
@@ -62,14 +62,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-75 py-1">
+                        <div class="col-lg-2 col-md-6 mb-4">
+                            <div class="card shadow h-75 py-1">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <table class="table table-bordered table-sm" style="text-align:center;">
                                                 <tr>
-                                                    <td class="bg-warning text-light">A</td>
+                                                    <td class="text-light" style="background-color:#D0C9C0;">A</td>
                                                     <td>Absent</td>
                                                 </tr>
                                             </table>
@@ -78,15 +78,31 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-75 py-1">
+                        <div class="col-lg-2 col-md-6 mb-4">
+                            <div class="card border-left shadow h-75 py-1" style="border:left 10px #5F7161;">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <table class="table table-bordered table-sm" style="text-align:center;">
                                                 <tr>
-                                                    <td class="bg-success text-light">C</td>
-                                                    <td>Cuti</td>
+                                                    <td class="text-light" style="background-color:#5F7161">L</td>
+                                                    <td>Leave</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 mb-4">
+                            <div class="card border-left shadow h-75 py-1" style="border:left 10px #5F7161;">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <table class="table table-bordered table-sm" style="text-align:center;">
+                                                <tr>
+                                                    <td class="text-light" style="background-color:#86cecb">T</td>
+                                                    <td>Tardy</td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -114,20 +130,24 @@
                             <tr>
                                 {% for vals in val.values %}
                                 {% if vals == 'P' %}
-                                <td class="bg-primary text-light">
+                                <td class="text-light" style="background-color:#137a7f">
                                     {{ vals }}
                                 </td>
                                 {% elif vals == 'C' %}
-                                <td class="bg-success text-light">
-                                    {{ vals }}
+                                <td class="text-light" style="background-color:	#5F7161">
+                                    L
                                 </td>
                                 {% elif vals == 'A' %}
-                                <td class="bg-warning text-light">
+                                <td class="text-light" style="background-color: #D0C9C0;">
                                     {{ vals }}
                                 </td>
                                 {% elif vals == 'L' %}
                                 <td class="">
                                     &nbsp;
+                                </td>
+                                {% elif vals == 'T' %}
+                                <td class="text-light" style="background-color: #86cecb">
+                                    {{ vals }}
                                 </td>
                                 {% else %}
                                 <td>
