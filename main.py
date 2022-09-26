@@ -317,8 +317,23 @@ def leimporter():
 
 @app.route('/participants')
 def participant_list():
-    page_info = {'page':'importdata', 
-                        'months':twelvemonth
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
+    # df_participant = data.load_participants(connection)
+    cursor = connection.cursor()
+
+    sql = "SELECT * FROM participant LEFT JOIN department ON participant.department_id=department.department_id;"
+    cursor.execute(sql)
+
+    hasil = cursor.fetchall()
+    df_participant = pd.DataFrame(hasil, columns=['Participant ID', 'Name', 'Department ID', 'e-mail', 'Department ID', 'Department'])
+
+
+    page_info = {'page':'participantlist', 
+                        'months':twelvemonth,
+                        'data_participant':df_participant
                         }
     return render_template('participants.html', result=page_info)
 
