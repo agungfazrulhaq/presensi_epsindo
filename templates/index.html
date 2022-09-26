@@ -4,6 +4,31 @@
 <head>
     {% include 'css-include.html' %}
 </head>
+<style>
+    .bg-primary{
+        background-color: #137a7f !important;
+    }
+    .bg-warning{
+        background-color: #D0C9C0 !important;
+    }
+    .bg-success{
+        background-color: #5F7161 !important;
+    }
+    .text-primary{
+        color:#137a7f !important;
+    }
+    
+    .text-warning{
+        color: #D0C9C0 !important;
+    }
+    .text-success{
+        color: #5F7161 !important;
+    }
+    /* .bg-secondary{
+        background-color: lightgrey !important;
+        color:grey !important;
+    } */
+</style>
 <body id="page-top">
     <div id="wrapper">
         {% include 'sidebar.html' %}
@@ -184,7 +209,7 @@
             labels: ["Present", "Absent", "Leave"],
             datasets: [{
             data: [{{ result['data_yearly']['yearly']['total_present'] }}, {{ result['data_yearly']['yearly']['total_absent'] }}, {{ result['data_yearly']['yearly']['total_leave'] }} ],
-            backgroundColor: ['#4e73df','#f6c23e', '#1cc88a', '#36b9cc'],
+            backgroundColor: ['#137a7f','#D0C9C0','#5F7161', '#36b9cc'],
             hoverBackgroundColor: ['#2e59d9', '#c29727', '#17a673', '#2c9faf'],
             hoverBorderColor: "rgba(234, 236, 244, 1)",
             }],

@@ -315,5 +315,12 @@ def leimporter():
         f.save(secure_filename(f.filename))
         return redirect(url_for('import_data', part='leave', filename=f.filename.replace(" ", "_")))
 
+@app.route('/participants')
+def participant_list():
+    page_info = {'page':'importdata', 
+                        'months':twelvemonth
+                        }
+    return render_template('participants.html', result=page_info)
+
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', debug=True)
