@@ -67,7 +67,7 @@
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownyears">
                             {% for i in range(result['now_year']-10, result['now_year']) %}
-                            <a class="dropdown-item" href="#">{{ i+1 }}</a>
+                            <a class="dropdown-item" href="/dashboard/{{ result['user_id'] }}/{{ i+1 }}">{{ i+1 }}</a>
                             {% endfor %}
                             <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                         </div>

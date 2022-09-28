@@ -48,23 +48,37 @@ def dashboard(user = 0, year=2022):
     df_participant = data.load_participants(connection)
     print("Current user id : ", user)
     df_presensi = data.load_presensi(connection)
-    df_leave = data.load_leave(connection)
-    df_yearly = data.load_yearly(df_presensi,df_leave, participant_id=int(user), year=year)
+    year_list = []
+    for ind,val in df_presensi.iterrows() :
+        year_list.append(int(val['Date'].year))
+    
+    if year in year_list :
+        df_leave = data.load_leave(connection)
+        df_yearly = data.load_yearly(df_presensi,df_leave, participant_id=int(user), year=year)
 
-    curr_user = df_participant[df_participant['id'] == int(user)].values[0]
-    df_participant = df_participant[df_participant['id'] != int(user)]
-    df_participant = df_participant.sort_values('name', ascending=True)
-    now = datetime.datetime.utcnow()
+        curr_user = df_participant[df_participant['id'] == int(user)].values[0]
+        df_participant = df_participant[df_participant['id'] != int(user)]
+        df_participant = df_participant.sort_values('name', ascending=True)
+        now = datetime.datetime.utcnow()
 
-    page_info = {'page':'index',
-                 'year' : year,
-                 'now_year' : now.year, 
-                 'months':list(monthdict.keys()), 
-                 'data_yearly':df_yearly, 
-                 'data_participant':df_participant, 
-                 'data_current_user':curr_user}
+        page_info = {'page':'index',
+                    'user_id':user,
+                    'year' : year,
+                    'now_year' : now.year, 
+                    'months':list(monthdict.keys()), 
+                    'data_yearly':df_yearly, 
+                    'data_participant':df_participant, 
+                    'data_current_user':curr_user}
 
-    return render_template('index.html', result = page_info)
+        return render_template('index.html', result = page_info)
+    
+    else :
+        return redirect(url_for('nodata'))
+
+@app.route('/nodata')
+def nodata():
+    page_info = {'page':'nodata'}
+    return render_template('nodata.html', result=page_info)
 
 @app.route('/monthly/<month>')
 def monthly(month='January'):
