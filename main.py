@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, send_file
 from werkzeug.utils import secure_filename
 import pandas as pd
 import numpy as np
@@ -121,6 +121,9 @@ def monthly(month='January'):
         session.pop('importpresensi_status')
 
     page_info = {'page':'monthly', 'month':month, 'data_monthly':df_monthly_data, 'row_imported':importpres}
+    ordered_dict_columns = df_monthly_data.columns
+    session['rendered_data_columns'] = list(ordered_dict_columns)
+    session['rendered_data_monthly'] = df_monthly_data.to_dict('list')
     return render_template('monthly.html', result = page_info)
 
 @app.route('/statustable/<start_date>_<end_date>')
@@ -170,6 +173,9 @@ def statustable(start_date, end_date):
         session.pop('importpresensi_status')
 
     page_info = {'page':'monthly', 'month':'None', 'data_monthly':df_monthly_data, 'row_imported':importpres}
+    ordered_dict_columns = df_monthly_data.columns
+    session['rendered_data_columns'] = list(ordered_dict_columns)
+    session['rendered_data_monthly'] = df_monthly_data.to_dict('list')
     return render_template('monthly.html', result = page_info)
 
 @app.route('/tableinputdate/', methods=['GET', 'POST'])
@@ -350,6 +356,19 @@ def participant_list():
                         'data_participant':df_participant
                         }
     return render_template('participants.html', result=page_info)
+@app.route('/download-monthly-data') 
+def download_monthly_data():
+    df_m = pd.DataFrame(session['rendered_data_monthly'])
+    print(session['rendered_data_monthly'])
+    print(df_m)
+    filename_excel = 'downloaded-absen.xlsx'
+    df_m.to_excel(filename_excel, columns=session['rendered_data_columns'])
+    
+    return send_file(filename_excel, download_name=filename_excel, as_attachment=True)
+
+@app.route('/download-dump')
+def download_dump():
+    return send_file('Model_databases.jpeg', download_name='downloaded_dump.jpeg', as_attachment=True)
 
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', debug=True)
