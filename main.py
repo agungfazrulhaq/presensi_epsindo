@@ -35,11 +35,12 @@ randomized_filename = "None"
 
 @app.route('/')
 def index():
-    return redirect(url_for('dashboard', user=0, year=2022))
+    return redirect(url_for('dashboard', user=-1, year=2022))
 
 @app.route('/dashboard/<user>/<year>')
 def dashboard(user = 0, year=2022):
     year=int(year)
+    user=int(user)
     connection = sqlconnector.connect(host=host,
                            database=database,
                            user=username,
@@ -48,30 +49,55 @@ def dashboard(user = 0, year=2022):
     df_participant = data.load_participants(connection)
     print("Current user id : ", user)
     df_presensi = data.load_presensi(connection)
+    now = datetime.datetime.utcnow()
     year_list = []
     for ind,val in df_presensi.iterrows() :
         year_list.append(int(val['Date'].year))
     
+    year_list_unique = []
+    for ye in year_list :
+        if ye not in year_list_unique :
+            year_list_unique.append(ye)
+       
     if year in year_list :
-        df_leave = data.load_leave(connection)
-        df_yearly = data.load_yearly(df_presensi,df_leave, participant_id=int(user), year=year)
+        if user == -1 :
+            print("Heyho")
+            df_leave = data.load_leave(connection)
+            df_yearly = data.load_yearly_all(df_presensi,df_leave, df_participant, year=year)
 
-        curr_user = df_participant[df_participant['id'] == int(user)].values[0]
-        df_participant = df_participant[df_participant['id'] != int(user)]
-        df_participant = df_participant.sort_values('name', ascending=True)
-        now = datetime.datetime.utcnow()
+            page_info = {'page':'index',
+                            'user_id':user,
+                            'year' : year,
+                            'now_year' : now.year, 
+                            'months':list(monthdict.keys()), 
+                            'data_yearly':df_yearly, 
+                            'data_participant':df_participant,
+                            'years' : year_list_unique,
+                            'alldata':True}
 
-        page_info = {'page':'index',
-                    'user_id':user,
-                    'year' : year,
-                    'now_year' : now.year, 
-                    'months':list(monthdict.keys()), 
-                    'data_yearly':df_yearly, 
-                    'data_participant':df_participant, 
-                    'data_current_user':curr_user}
+            return render_template('index.html', result = page_info)
+        else :
+            df_leave = data.load_leave(connection)
+            df_yearly = data.load_yearly(df_presensi,df_leave, participant_id=int(user), year=year)
 
-        return render_template('index.html', result = page_info)
-    
+            curr_user = df_participant[df_participant['id'] == int(user)].values[0]
+            df_participant = df_participant[df_participant['id'] != int(user)]
+            df_participant = df_participant.sort_values('name', ascending=True)
+            now = datetime.datetime.utcnow()
+
+            page_info = {'page':'index',
+                        'user_id':user,
+                        'year' : year,
+                        'now_year' : now.year, 
+                        'months':list(monthdict.keys()), 
+                        'data_yearly':df_yearly, 
+                        'data_participant':df_participant, 
+                        'data_current_user':curr_user,
+                        'years' : year_list_unique,
+                        'alldata':False}
+
+            return render_template('index.html', result = page_info)
+        
     else :
         return redirect(url_for('nodata'))
 

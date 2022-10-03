@@ -327,6 +327,7 @@ def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
         # print(len(presentlist))
         daysindata = presentlist['Date'].values
         presentotal = 0
+        latetotal = 0
         absentotal = 0
         nodata = 0
         leavetotal = 0
@@ -344,8 +345,11 @@ def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
                     leavetotal += 1
 
                 elif day in daysindata :
+                    if pd.Timedelta(presentlist[presentlist["Date"] == day]["firstcheckin"].values[0]).total_seconds()/3600 >= 10 :
+                        latetotal += 1
                     # dict_absen[day].append('P')
-                    presentotal += 1
+                    else :
+                        presentotal += 1
 
                 else :
                     # dict_absen[day].append('A')
@@ -357,9 +361,11 @@ def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
             
                 else :
                     nodata += 1
-        totaldata = presentotal + absentotal + nodata + leavetotal
+        totaldata = presentotal + absentotal + nodata + leavetotal + latetotal
         monthly_['total_present'] = presentotal
         monthly_['present_pct'] = round((presentotal/totaldata)*100)
+        monthly_['total_late'] = latetotal
+        monthly_['late_pct'] = round((latetotal/totaldata)*100)
         monthly_['total_absent'] = absentotal
         monthly_['absent_pct'] = round((absentotal/totaldata)*100)
         monthly_['nodata'] = nodata
@@ -370,21 +376,25 @@ def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
     dict_analysis['monthly'] = allmonth
     
     totalpresent = 0
+    totallate = 0
     totalabsent = 0
     totalnodata = 0
     totalleave = 0
     for i in range(12) :
         totalpresent += dict_analysis['monthly'][str(i+1)]['total_present']
+        totallate += dict_analysis['monthly'][str(i+1)]['total_late']
         totalabsent += dict_analysis['monthly'][str(i+1)]['total_absent']
         totalnodata += dict_analysis['monthly'][str(i+1)]['nodata']
         totalleave += dict_analysis['monthly'][str(i+1)]['total_leave']
     
-    totaldata = totalabsent + totalpresent + totalleave
+    totaldata = totalabsent + totalpresent + totalleave + totallate
     dict_analysis['yearly'] = { 'total_present': totalpresent,
                                 'total_absent': totalabsent,
+                                'total_late' : totallate,
                                 'total_nodata': totalnodata,
                                 'total_leave' : totalleave,
                                 'presentpct': round((totalpresent/totaldata)*100),
+                                'latepct': round((totallate/totaldata)*100),
                                 'absentpct': round((totalabsent/totaldata)*100),
                                 'leavepct': round((totalleave/totaldata)*100),
                                 'nodatapct': round((totalnodata/totaldata)*100)
@@ -405,9 +415,71 @@ def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
     #     dict_absen['presensi_total'].append(presentotal)
     #     dict_absen['absensi_total'].append(absentotal)
     #     dict_absen['cuti_total'].append(0)
-
+    print(dict_analysis)
     return dict_analysis
 
+def load_yearly_all(df_presensi, df_leave, df_participants, year=2022) :
+    arr_participant = df_participants['id'].values
+    list_of_d = []
+    for x in arr_participant :
+        list_of_d.append(load_yearly(df_presensi, df_leave, x, year))
+    
+    dict_new = {}
+    dict_new['monthly'] = {}
+    for i in range(12) :
+        dict_new['monthly'][str(i+1)] = {}
+    for i in range(12) :
+        total_present = 0
+        total_late = 0
+        total_leave = 0
+        total_absent = 0
+        total_nodata = 0
+        for x in list_of_d :
+            total_present += x['monthly'][str(i+1)]['total_present']
+            total_late += x['monthly'][str(i+1)]['total_late']
+            total_leave += x['monthly'][str(i+1)]['total_leave']
+            total_absent += x['monthly'][str(i+1)]['total_absent']
+            total_nodata += x['monthly'][str(i+1)]['nodata']
+        totaldata = total_present + total_late + total_leave + total_absent + total_nodata
+        dict_new['monthly'][str(i+1)]['total_present'] = total_present
+        dict_new['monthly'][str(i+1)]['total_late'] = total_late
+        dict_new['monthly'][str(i+1)]['total_leave'] = total_leave
+        dict_new['monthly'][str(i+1)]['total_absent'] = total_absent
+        dict_new['monthly'][str(i+1)]['nodata'] = total_nodata
+        dict_new['monthly'][str(i+1)]['present_pct'] = round((total_present/totaldata)*100)
+        dict_new['monthly'][str(i+1)]['late_pct'] = round((total_late/totaldata)*100)
+        dict_new['monthly'][str(i+1)]['leave_pct'] = round((total_leave/totaldata)*100)
+        dict_new['monthly'][str(i+1)]['absent_pct'] = round((total_absent/totaldata)*100)
+        dict_new['monthly'][str(i+1)]['nodata_pct'] = round((total_nodata/totaldata)*100)
+    
+    totalpresent = 0
+    totallate = 0
+    totalabsent = 0
+    totalnodata = 0
+    totalleave = 0
+    for i in range(12) :
+        totalpresent += dict_new['monthly'][str(i+1)]['total_present']
+        totallate += dict_new['monthly'][str(i+1)]['total_late']
+        totalabsent += dict_new['monthly'][str(i+1)]['total_absent']
+        totalnodata += dict_new['monthly'][str(i+1)]['nodata']
+        totalleave += dict_new['monthly'][str(i+1)]['total_leave']
+    
+    totaldata = totalabsent + totalpresent + totalleave + totallate
+    dict_new['yearly'] = { 'total_present': totalpresent,
+                                'total_absent': totalabsent,
+                                'total_late' : totallate,
+                                'total_nodata': totalnodata,
+                                'total_leave' : totalleave,
+                                'presentpct': round((totalpresent/totaldata)*100),
+                                'latepct': round((totallate/totaldata)*100),
+                                'absentpct': round((totalabsent/totaldata)*100),
+                                'leavepct': round((totalleave/totaldata)*100),
+                                'nodatapct': round((totalnodata/totaldata)*100)
+                            }
+    
+    return dict_new
+        
+ 
 def check_xls_file(columns) :
     arr_validation = ['Date', 'ID', 'Name', 'Status', 'First Check In', 'Last Check Out',
                       'Duration (Hour)', 'Break (Hour)', 'Actual (Hour)', 'Overtime (Hour)',
@@ -577,6 +649,10 @@ def check_xls_leave_file(columns):
 def read_leave(filename, df_participant) :
     df = pd.read_excel(filename)
 
+    df.columns = df.iloc[6].values
+    
+    df = df[7:]
+    
     if check_xls_leave_file(df.columns) == False :
         return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
     # print(df.columns)

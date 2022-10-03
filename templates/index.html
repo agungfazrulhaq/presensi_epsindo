@@ -14,8 +14,14 @@
     .bg-success{
         background-color: #5F7161 !important;
     }
+    .bg-info{
+        background-color: #86cecb !important;
+    }
     .text-primary{
         color:#137a7f !important;
+    }
+    .text-info{
+        color:#86cecb !important;
     }
     
     .text-warning{
@@ -43,13 +49,22 @@
 
                     <div class="row">
                     <div class="dropdown mb-4">
+                        {% if result['alldata'] %}
+                        <button class="btn dropdown-toggle text-light" type="button"
+                            id="dropdownparticipant" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" style="background-color:#137a7f;">
+                            All
+                        </button>
+                        {% else %}
                         <button class="btn dropdown-toggle text-light" type="button"
                             id="dropdownparticipant" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false" style="background-color:#137a7f;">
                             {{ result['data_current_user'][1] }}
                         </button>
+                        {% endif %}
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownparticipant">
+                            <a class="dropdown-item" href="/dashboard/-1/{{ result['year'] }}">all</a>
                             {% for ind,val in result['data_participant'].iterrows() %}
                             <a class="dropdown-item" href="/dashboard/{{ val['id'] }}/{{ result['year'] }}">{{ val['name'] }}</a>
                             <!-- <a class="dropdown-item" href="#">Raisul Amin Zulfikri</a> -->
@@ -66,8 +81,8 @@
                         </button>
                         <div class="dropdown-menu animated--fade-in"
                             aria-labelledby="dropdownyears">
-                            {% for i in range(result['now_year']-10, result['now_year']) %}
-                            <a class="dropdown-item" href="/dashboard/{{ result['user_id'] }}/{{ i+1 }}">{{ i+1 }}</a>
+                            {% for ye in result['years'] %}
+                            <a class="dropdown-item" href="/dashboard/{{ result['user_id'] }}/{{ ye }}">{{ ye }}</a>
                             {% endfor %}
                             <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                         </div>
@@ -91,6 +106,10 @@
                                         aria-label="presentseg" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="background-color:#137a7f !important;">
                                         {{ data_monthly['total_present'] }} 
                                     </div>
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ data_monthly['late_pct'] }}%"
+                                        aria-label="lateseg" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                                        {{ data_monthly['total_late'] }}
+                                    </div>
                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ data_monthly['absent_pct'] }}%"
                                         aria-label="absentseg" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
                                         {{ data_monthly['total_absent'] }}
@@ -101,7 +120,7 @@
                                     </div>
                                     <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ data_monthly['nodata_pct'] }}%"
                                         aria-label="leaveseg" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                        {{ data_monthly['nodata'] }}
+                                        
                                     </div>
                                     
                                 </div>
@@ -143,6 +162,9 @@
                                         <i class="fas fa-circle text-primary"></i> Present
                                     </span>
                                     <span class="mr-2">
+                                        <i class="fas fa-circle text-info"></i> Tardy
+                                    </span>
+                                    <span class="mr-2">
                                         <i class="fas fa-circle text-warning"></i> Absent
                                     </span>
                                     <span class="mr-2">
@@ -151,16 +173,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
-                            </div>
-                            <div class="card-body">
-                                The styling for this basic card example is created by using default Bootstrap
-                                utility classes. By using utility classes, the style of the card component can be
-                                easily modified with no need for any custom CSS!
-                            </div>
-                        </div>
+                        
                     </div>
                     <!-- <div class="col-xl-4 col-lg-5">
                         <div class="card shadow mb-4">
@@ -206,11 +219,11 @@
         var myPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ["Present", "Absent", "Leave"],
+            labels: ["Present","Tardy", "Absent", "Leave"],
             datasets: [{
-            data: [{{ result['data_yearly']['yearly']['total_present'] }}, {{ result['data_yearly']['yearly']['total_absent'] }}, {{ result['data_yearly']['yearly']['total_leave'] }} ],
-            backgroundColor: ['#137a7f','#D0C9C0','#5F7161', '#36b9cc'],
-            hoverBackgroundColor: ['#2e59d9', '#c29727', '#17a673', '#2c9faf'],
+            data: [{{ result['data_yearly']['yearly']['total_present'] }}, {{ result['data_yearly']['yearly']['total_late'] }}, {{ result['data_yearly']['yearly']['total_absent'] }}, {{ result['data_yearly']['yearly']['total_leave'] }} ],
+            backgroundColor: ['#137a7f','#86cecb','#D0C9C0','#5F7161'],
+            hoverBackgroundColor: ['#0b4e52','#538280', '#87827b', '#3a4a3b'],
             hoverBorderColor: "rgba(234, 236, 244, 1)",
             }],
         },
