@@ -83,24 +83,31 @@
             <span>Data</span>
         </a>
         {% set partlist = ['presensi', 'leave'] %}
+        {% set stringlist = ['Attendance', 'Leave'] %}
         {% if result['page'] == 'importdata' %}
         <div id="collapseData" class="collapse show" aria-labelledby="headingData" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-            {% for part in partlist %}
-                {% if part == result['part'] %}
-                    <a class="collapse-item active" href="/importdata/{{ part }}/preview=None">{{ part | capitalize }}</a>
+            {% for i in range(partlist|length) %}
+                {% if partlist[i] == result['part'] %}
+                    <a class="collapse-item active" href="/importdata/{{ partlist[i] }}/preview=None">{{ stringlist[i] }}</a>
                 {% else %}
-                    <a class="collapse-item" href="/importdata/{{ part }}/preview=None">{{ part | capitalize }}</a>
+                    <a class="collapse-item" href="/importdata/{{ partlist[i] }}/preview=None">{{ stringlist[i] }}</a>
                 {% endif %}
             {% endfor %}
+            <a class="collapse-item" href="/addholiday">Holidays</a>
             </div>
         </div>
         {% else %}
         <div id="collapseData" class="collapse" aria-labelledby="headingData" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-            {% for part in partlist %}
-                <a class="collapse-item" href="/importdata/{{ part }}/preview=None">{{ part | capitalize }}</a>
+            {% for i in range(partlist|length) %}
+                <a class="collapse-item" href="/importdata/{{ partlist[i] }}/preview=None">{{ stringlist[i] }}</a>
             {% endfor %}
+            {% if result['page'] == 'holiday' %}
+            <a class="collapse-item active" href="/addholiday">Holidays</a>
+            {% else %}
+            <a class="collapse-item">Holidays</a>
+            {% endif %}
             </div>
         </div>
         {% endif %}

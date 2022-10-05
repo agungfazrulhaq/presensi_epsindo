@@ -396,5 +396,10 @@ def download_monthly_data():
 def download_dump():
     return send_file('Model_databases.jpeg', download_name='downloaded_dump.jpeg', as_attachment=True)
 
+@app.route('/addholiday')
+def addholiday():
+    page_info = {'page' : 'holiday'}
+    return render_template('form-holiday.html', result=page_info)
+
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', debug=True)
