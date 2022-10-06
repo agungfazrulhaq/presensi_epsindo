@@ -123,13 +123,17 @@ def get_leave_data(df_leave, participant_id) :
             current_date = current_date + datetime.timedelta(days=1)
     return leave_list
 
-def load_monthly_table_data(df_participant, df_presensi, df_leave, month=1, year=2022) :
+def load_monthly_table_data(conn, df_participant, df_presensi, df_leave, month=1, year=2022) :
 
     days = [datetime.date(year, month, d+1) for d in range(calendar.monthrange(year,month)[1])]
     weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
+    df_libur = get_holidays(conn)
+    # df_libur['date'] = df_libur['date'].apply(lambda x : datetime.datetime.strptime(x, "%Y-%m-%d").date())
     # df_presensi['datetimedate'] = df_presensi["Date"].apply(lambda x : datetime.datetime.strptime(x, "%Y-%m-%d").date())
     dict_absen = {'Name':[]}
+
+    holidays = df_libur['date'].values
 
     dates = 0
     for day in days :
@@ -164,6 +168,9 @@ def load_monthly_table_data(df_participant, df_presensi, df_leave, month=1, year
         for day in days:
             if day.weekday() == 5 or day.weekday() == 6 :
                 dict_absen[day].append('L')
+            
+            elif day in holidays :
+                dict_absen[day].append('H')
 
             elif len(df_presensi['Date'].values) == 0 :
                 dict_absen[day].append('N')
@@ -200,11 +207,13 @@ def load_monthly_table_data(df_participant, df_presensi, df_leave, month=1, year
 
     return pd.DataFrame(dict_absen)
 
-def load_presensi_table_data(df_participant, df_presensi, df_leave, start_date, end_date) :
+def load_presensi_table_data(conn, df_participant, df_presensi, df_leave, start_date, end_date) :
     sdate = parse(start_date)
     edate = parse(end_date)
     # sdate.tz_localize(None)
     # edate.tz_localize(None)
+    df_libur = get_holidays(conn)
+    holidays = df_libur['date'].values
 
     list_date = pd.date_range(start_date,end_date,freq='d')
 
@@ -253,6 +262,9 @@ def load_presensi_table_data(df_participant, df_presensi, df_leave, start_date, 
         for day in days:
             if day.weekday() == 5 or day.weekday() == 6 :
                 dict_absen[day].append('L')
+            
+            elif day in holidays:
+                dict_absen[day].append('H')
 
             elif len(df_presensi['Date'].values) == 0 :
                 dict_absen[day].append('N')
@@ -291,10 +303,14 @@ def load_presensi_table_data(df_participant, df_presensi, df_leave, start_date, 
 
     return pd.DataFrame(dict_absen)
 
-def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
+def load_yearly(conn, df_presensi, df_leave, participant_id=0, year=2022) :
     days = []
     for i in range(12) :
         days.append([datetime.date(year, i+1, d+1) for d in range(calendar.monthrange(year,i+1)[1])])
+    
+    df_libur = get_holidays(conn)
+
+    holidays = df_libur['date'].values
 
     # weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     dict_analysis = {}
@@ -337,7 +353,8 @@ def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
             for day in days[imonth]:
                 if day.weekday() == 5 or day.weekday() == 6 :
                     pass
-            
+                elif day in holidays :
+                    pass
                 elif day < mindate or day > maxdate :
                     nodata += 1
                 
@@ -418,11 +435,13 @@ def load_yearly(df_presensi, df_leave, participant_id=0, year=2022) :
     print(dict_analysis)
     return dict_analysis
 
-def load_yearly_all(df_presensi, df_leave, df_participants, year=2022) :
+def load_yearly_all(conn, df_presensi, df_leave, df_participants, year=2022) :
+    df_libur = get_holidays(conn)
+    holidays = df_libur['date'].values
     arr_participant = df_participants['id'].values
     list_of_d = []
     for x in arr_participant :
-        list_of_d.append(load_yearly(df_presensi, df_leave, x, year))
+        list_of_d.append(load_yearly(conn, df_presensi, df_leave, x, year))
     
     dict_new = {}
     dict_new['monthly'] = {}

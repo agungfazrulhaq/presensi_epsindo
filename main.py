@@ -63,7 +63,7 @@ def dashboard(user = 0, year=2022):
         if user == -1 :
             print("Heyho")
             df_leave = data.load_leave(connection)
-            df_yearly = data.load_yearly_all(df_presensi,df_leave, df_participant, year=year)
+            df_yearly = data.load_yearly_all(connection, df_presensi,df_leave, df_participant, year=year)
 
             page_info = {'page':'index',
                             'user_id':user,
@@ -78,7 +78,7 @@ def dashboard(user = 0, year=2022):
             return render_template('index.html', result = page_info)
         else :
             df_leave = data.load_leave(connection)
-            df_yearly = data.load_yearly(df_presensi,df_leave, participant_id=int(user), year=year)
+            df_yearly = data.load_yearly(connection, df_presensi,df_leave, participant_id=int(user), year=year)
 
             curr_user = df_participant[df_participant['id'] == int(user)].values[0]
             df_participant = df_participant[df_participant['id'] != int(user)]
@@ -130,7 +130,7 @@ def monthly(month='January'):
     df_presensi = data.load_presensi(connection, month=month)
     df_participant = data.load_participants(connection)
     df_leave = data.load_leave(connection)
-    df_monthly_data = data.load_monthly_table_data(df_participant, df_presensi, df_leave, month=monthdict[month])
+    df_monthly_data = data.load_monthly_table_data(connection, df_participant, df_presensi, df_leave, month=monthdict[month])
 
     weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     dict_rename = {}
@@ -182,7 +182,7 @@ def statustable(start_date, end_date):
     df_leave = data.load_leave(connection)
     print(start_date)
     print(end_date)
-    df_monthly_data = data.load_presensi_table_data(df_participant, df_presensi, df_leave, start_date, end_date)
+    df_monthly_data = data.load_presensi_table_data(connection, df_participant, df_presensi, df_leave, start_date, end_date)
 
     weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     dict_rename = {}
