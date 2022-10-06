@@ -706,3 +706,32 @@ def import_leave(conn, df, dup_action='replace') :
         print(cur.rowcount, "rows executed.")
 
         return cur.rowcount
+
+
+def add_holiday(conn, dict_) :
+    cur = conn.cursor()
+    sql = "INSERT INTO tabel_libur (date, deskripsi) VALUES (%s, %s)"
+    libur_values = (dict_['date'], dict_['description'])
+    cur.execute(sql, libur_values)
+    conn.commit()
+
+    return cur.rowcount
+
+def get_holidays(conn) :
+    cur=conn.cursor()
+    sql = "SELECT * FROM tabel_libur"
+    cur.execute(sql)
+
+    result = cur.fetchall()
+
+    return pd.DataFrame(data=result, columns=['id', 'date', 'description'])
+
+def delete_holiday(conn, id) :
+    cur=conn.cursor()
+    sql = "DELETE FROM tabel_libur WHERE id=" + str(id)
+
+    cur.execute(sql)
+    conn.commit()
+
+    return cur.rowcount
+

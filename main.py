@@ -398,8 +398,42 @@ def download_dump():
 
 @app.route('/addholiday')
 def addholiday():
-    page_info = {'page' : 'holiday'}
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
+    data_libur = data.get_holidays(connection)
+
+    page_info = {'page' : 'holiday', 'data_libur':data_libur}
     return render_template('form-holiday.html', result=page_info)
+
+@app.route('/insertholiday', methods=['GET','POST'])
+def insertholiday():
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password) 
+    if request.method == 'POST' :
+        the_date = request.form['date'].split('/')
+        desc = request.form['description']
+        the_date_ = [the_date[2], the_date[0], the_date[1]]
+        the_date = '-'.join(the_date_)
+
+        the_dict = {'date': the_date, 'description':desc}
+        data.add_holiday(connection, the_dict)
+
+        return  redirect(url_for('addholiday'))
+
+@app.route('/dellibur/<id_libur>')
+def dellibur(id_libur):
+    connection = sqlconnector.connect(host=host,
+                           database=database,
+                           user=username,
+                           password=password)
+    
+    data.delete_holiday(connection, id_libur)
+
+    return redirect(url_for('addholiday'))
 
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', debug=True)

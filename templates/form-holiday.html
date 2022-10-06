@@ -36,14 +36,16 @@
             <div id="content">
                 <div class="container-fluid">
                     <h1 class="h3 mb-4 text-gray-800" style="margin-top:30px;">Add Holidays</h1>
-                    <div class="card col-lg-4">
+                    <div class="row">
+                    <div class="col-lg-4">
+                    <div class="card">
                     <div class="card-header py-3 d-flex mb-4 flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Add Date</h6>
                     </div>
-                    <div class="card-content">
-                    <form action="#" method="post">
+                    <div class="card-content mr-3 ml-3">
+                    <form action="/insertholiday" method="post">
                         <div class="form-group">
-                        <input id="datepicker" name="startdate" width="276" placeholder="Start" required/>
+                        <input id="datepicker" name="date" width="276" placeholder="Date" autocomplete="off" required/>
                             <script>
                                 $('#datepicker').datepicker({
                                     uiLibrary: 'bootstrap4'
@@ -61,31 +63,30 @@
                     </form>
                     </div>
                     </div>
+                    </div>
 
-                    <div class="card col-lg-5 mt-5">
+                    <div class="col-lg-6">
+
+                    <div class="card">
                         <table class="table">
                             <tr>
                                 <th>Date</th>
                                 <th>Description</th>
                                 <th></th>
                             </tr>
+                            {% for ind,row in result['data_libur'].iterrows() %}
                             <tr>
-                                <td>17-08-2022</td>
-                                <td>Hari Kemerdekaan</td>
-                                <td>Delete</td>
+                                <td>{{ row['date'] }}</td>
+                                <td>{{ row['description'] }}</td>
+                                <td><a class="btn btn-sm btn-info" style="background-color:#5F7161;border:none;" href="/dellibur/{{ row['id'] }}">Delete</a></td>
                             </tr>
+                            {% endfor %}
                             <tr>
-                                <td>25-12-2022</td>
-                                <td>Natal</td>
-                                <td>Delete</td>
-                                
-                            </tr>
-                            <tr>
-                                <td>08-10-2022</td>
-                                <td>Isra' Mi'raj</td>
-                                <td>Delete</td>
-                            </tr>
                         </table>
+                    </div>
+
+                    </div>
+
                     </div>
 
                     
